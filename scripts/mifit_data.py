@@ -53,7 +53,7 @@ class MifitData:
         self.data = pd.read_csv(path, index_col=None, header=0)
 
     def make_report(self) -> None:
-        current_dir = f'./mifit_analyzer'
+        current_dir = './mifit_analyzer'
         all_png_files = glob.glob(f'{current_dir}/plots/*.png')
         today = datetime.now().strftime('%Y-%m-%d')
 
