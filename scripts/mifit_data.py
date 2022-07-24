@@ -75,4 +75,3 @@ class MifitData:
                     '-o', f'{self.statistics_file_name}.md']
         stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
         out, err = stream.communicate()
-
