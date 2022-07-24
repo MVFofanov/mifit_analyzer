@@ -30,6 +30,9 @@ class Sleep(MifitData):
 
         self.hours_difference = hours_difference
 
+        Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
+        Path(self.path_to_plots).mkdir(parents=True, exist_ok=True)
+
     def select_date_range(self):
         if self.start_date != self.date_min or self.end_date != self.date_max:
             self.data = self.data[(self.data.date >= self.start_date) &

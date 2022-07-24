@@ -1,5 +1,6 @@
 from datetime import datetime
 import glob
+from pathlib import Path
 import subprocess
 
 from sleep_activity import SleepActivity
@@ -7,7 +8,8 @@ from sleep_activity import SleepActivity
 
 class MifitReport:
     current_dir = './mifit_analyzer'
-    plots_dir = './mifit_analyzer/plots'
+    plots_dir = './mifit_analyzer/plots/'
+    report_directory = './mifit_analyzer/report/'
 
     def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int):
         self.mifit_data = mifit_data
@@ -24,6 +26,8 @@ class MifitReport:
         self.steps_sum: int = self.mifit_data.data.steps.sum()
         self.daily_steps_goal_achieved_days: int = self.mifit_data.data[self.mifit_data.data.steps >=
                                                                         self.daily_steps_goal].shape[0]
+
+        Path(self.report_directory).mkdir(parents=True, exist_ok=True)
 
     def __len__(self) -> int:
         return self.mifit_data.data.shape[0]

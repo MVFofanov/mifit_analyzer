@@ -8,7 +8,8 @@ import pandas as pd
 
 class MifitData:
     plot_figsize = (12, 8)
-    path_to_plots = './mifit_analyzer/plots'
+    path_to_plots = './mifit_analyzer/plots/'
+    statistics_directory = './mifit_analyzer/statistics/'
 
     day_of_the_week_names = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
