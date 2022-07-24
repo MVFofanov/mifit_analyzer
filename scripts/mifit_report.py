@@ -3,13 +3,16 @@ import glob
 from pathlib import Path
 import subprocess
 
+import pandas as pd
+
 from sleep_activity import SleepActivity
 
 
 class MifitReport:
-    current_dir = './mifit_analyzer'
-    plots_dir = './mifit_analyzer/plots/'
-    report_directory = './mifit_analyzer/report/'
+    current_directory = './mifit_analyzer'
+    plots_directory = './mifit_analyzer/plots'
+    report_directory = './mifit_analyzer/report'
+    statistics_directory = './mifit_analyzer/statistics'
 
     def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int) -> None:
         self.mifit_data = mifit_data
@@ -45,22 +48,21 @@ class MifitReport:
                          f'---']
 
         interesting_statistics = self.get_interesting_statistics()
-        sleep_statistics, activity_statistics = self.get_mifit_statistics()
-
-        self.save_top_step_days_to_csv()
+        self.save_top_step_days()
+        sleep_statistics, activity_statistics, top_step_days = self.get_mifit_statistics()
 
         markdown_list.extend((interesting_statistics,
                               'MiFit data sleep statistics\n', sleep_statistics,
-                              'MiFit data activity statistics\n', activity_statistics))
+                              'MiFit data activity statistics\n', activity_statistics,
+                              'MiFit data top step days\n', top_step_days))
 
-        # markdown_list.extend(self.get_all_plots_for_markdown_report())
         markdown_list.extend(self.markdown_plots_list)
 
         self.save_report(markdown_list)
-        self.convert_markdown_to_html()
+        self.convert_report_to_html()
 
     def get_all_plots_for_markdown_report(self) -> list[str]:
-        all_png_files = glob.glob(f'{self.current_dir}/plots/*.png')
+        all_png_files = glob.glob(f'{self.plots_directory}/*.png')
         plots_list = []
         for filename in all_png_files:
             plots_list.append(f"{filename.split('/')[-1]}")
@@ -68,13 +70,13 @@ class MifitReport:
         return plots_list
 
     def get_plot_markdown_text(self, file_name: str) -> tuple[str, str]:
-        plot_path = f'{self.current_dir}/plots/{file_name}.png'
+        plot_path = f'{self.plots_directory}/{file_name}.png'
         plot_name = f"{plot_path.split('/')[-1]}"
         plot_markdown = f"![image]({plot_path})"
         return plot_name, plot_markdown
 
     def save_report(self, markdown_list: list[str]) -> None:
-        with open(f"{self.current_dir}/report/report.md", 'w') as file_md:
+        with open(f"{self.report_directory}/report.md", 'w') as file_md:
             file_md.write('\n'.join(markdown_list))
 
     def get_interesting_statistics(self) -> str:
@@ -95,33 +97,39 @@ class MifitReport:
                f'{round(self.distance_sum / self.steps_sum, 2)} meter.\n\n'
         return text
 
-    def get_mifit_statistics(self) -> tuple[str, str]:
-        with open('./mifit_analyzer/statistics/sleep_statistics.md') as file:
+    def get_mifit_statistics(self) -> tuple[str, str, str]:
+        with open(f'{self.statistics_directory}/sleep_statistics.md') as file:
             sleep_statistics = file.read()
 
-        with open('./mifit_analyzer/statistics/activity_statistics.md') as file:
+        with open(f'{self.statistics_directory}/activity_statistics.md') as file:
             activity_statistics = file.read()
 
-        return sleep_statistics, activity_statistics
+        with open(f'{self.statistics_directory}/top_step_days.md') as file:
+            top_step_days = file.read()
 
-    def save_top_step_days_to_csv(self, number_days=10) -> None:
+        return sleep_statistics, activity_statistics, top_step_days
+
+    def save_top_step_days(self, number_days=10) -> None:
         top_step_days_df = self.mifit_data.data.sort_values(by='steps', ascending=False)[: number_days]
 
-        columns = ['date', 'steps', 'distance', 'runDistance', 'calories',
-                   'date_month_name', 'date_weekday_name', 'year']
+        columns = ['date', 'date_weekday_name', 'steps', 'distance', 'runDistance']
+        top_step_days_df = top_step_days_df[columns]
 
-        top_step_days_df[columns].to_csv(f'{self.current_dir}/statistics/top_step_days.csv')
+        top_step_days_df['date'] = top_step_days_df['date'].apply(pd.to_datetime).dt.date
 
-    def convert_markdown_to_html(self) -> None:
-        arg_list = ['pandoc', '--self-contained', '-s', './mifit_analyzer/report/report.md', '-o',
-                    './mifit_analyzer/report/report.html']
+        top_step_days_df.columns = ['Date', 'Day', 'Steps', 'Distance', 'Run distance']
+
+        top_step_days_df.to_csv(f'{self.statistics_directory}/top_step_days.csv', index=False)
+
+        arg_list = ['pandoc', '-f', 'csv', '-t', 'markdown',
+                    '-s', f'{self.statistics_directory}/top_step_days.csv',
+                    '-o', f'{self.statistics_directory}/top_step_days.md']
         stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
         out, err = stream.communicate()
 
-    def convert_csv_to_markdown(self) -> None:
-        arg_list = ['pandoc', '-f', 'csv', '-t', 'markdown',
-                    '-s', f'{self.statistics_file_name}.csv',
-                    '-o', f'{self.statistics_file_name}.md']
+    def convert_report_to_html(self) -> None:
+        arg_list = ['pandoc', '--self-contained', '-s', f'{self.report_directory}/report.md', '-o',
+                    f'{self.report_directory}/report.html']
         stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
         out, err = stream.communicate()
 
