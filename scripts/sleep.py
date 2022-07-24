@@ -48,7 +48,9 @@ class Sleep(MifitData):
         self.create_service_directories()
 
     def transform_time_columns_to_datetime(self) -> None:
-        self.data[['date', 'start', 'stop']] = self.data[['date', 'start', 'stop']].apply(pd.to_datetime)
+        self.data['date'] = pd.to_datetime(self.data['date'], unit='s')
+        self.data['start'] = pd.to_datetime(self.data['start'], unit='s')
+        self.data['stop'] = pd.to_datetime(self.data['stop'], unit='s')
 
     def add_new_columns(self) -> None:
         self.data['totalSleepTime'] = self.data.deepSleepTime + self.data.shallowSleepTime

@@ -38,6 +38,28 @@ class Activity(MifitData):
             self.date_min: datetime = self.start_date
             self.date_max: datetime = self.end_date
 
+    def transform_data_for_analysis(self) -> None:
+        self.transform_time_columns_to_datetime()
+        self.add_new_columns()
+        self.select_date_range()
+        self.create_service_directories()
+
+    def transform_time_columns_to_datetime(self) -> None:
+        self.data['date'] = pd.to_datetime(self.data['date'], unit='s')
+
+    def add_new_columns(self) -> None:
+        self.data['date_weekday'] = self.data['date'].dt.dayofweek
+        self.data['date_month'] = self.data['date'].dt.month
+        self.data['date_weekday_name'] = self.data['date'].dt.day_name()
+        self.data['date_month_name'] = self.data['date'].dt.month_name()
+        self.data['year'] = self.data['date'].dt.year
+        self.data['date_weekday_name'] = self.data['date_weekday_name'].astype('category')
+        self.data['date_weekday_name'] = self.data['date_weekday_name'] \
+            .cat.set_categories(self.day_of_the_week_names)
+        self.data['date_month_name'] = self.data['date_month_name'].astype('category')
+        self.data['date_month_name'] = self.data['date_month_name'] \
+            .cat.set_categories(self.month_names)
+
     def make_activity_pairplot(self) -> None:
         activity_data = self.data[['steps', 'distance', 'runDistance', 'calories']]
 
@@ -61,25 +83,6 @@ class Activity(MifitData):
 
         plt.savefig(Path(self.path_to_plots, 'activity_boxplot.png'))
         plt.close("all")
-
-    def transform_data_for_analysis(self) -> None:
-        self.transform_time_columns_to_datetime()
-        self.add_new_columns()
-        self.select_date_range()
-        self.create_service_directories()
-
-    def add_new_columns(self) -> None:
-        self.data['date_weekday'] = self.data['date'].dt.dayofweek
-        self.data['date_month'] = self.data['date'].dt.month
-        self.data['date_weekday_name'] = self.data['date'].dt.day_name()
-        self.data['date_month_name'] = self.data['date'].dt.month_name()
-        self.data['year'] = self.data['date'].dt.year
-        self.data['date_weekday_name'] = self.data['date_weekday_name'].astype('category')
-        self.data['date_weekday_name'] = self.data['date_weekday_name'] \
-            .cat.set_categories(self.day_of_the_week_names)
-        self.data['date_month_name'] = self.data['date_month_name'].astype('category')
-        self.data['date_month_name'] = self.data['date_month_name'] \
-            .cat.set_categories(self.month_names)
 
     def make_activity_steps_distance_scatterplot(self) -> None:
         sns.set_style('whitegrid')
