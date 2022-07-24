@@ -38,6 +38,12 @@ class MifitData:
     def write_statistics_to_csv(self) -> None:
         raise NotImplementedError
 
+    def transform_time_columns_to_datetime(self) -> None:
+        self.data['date'] = self.data['date'].apply(pd.to_datetime)
+
+    def add_new_columns(self) -> None:
+        raise NotImplementedError
+
     def read_all_csv_files(self) -> pd.DataFrame:
         current_dir = str(Path().resolve())
         all_csv_files = glob.glob(f'{current_dir}/{self.directory_name}/*.csv')
@@ -52,6 +58,10 @@ class MifitData:
 
     def read_my_csv_file(self, path) -> None:
         self.data = pd.read_csv(path, index_col=None, header=0)
+
+    def create_service_directories(self):
+        Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
+        Path(self.path_to_plots).mkdir(parents=True, exist_ok=True)
 
     def make_report(self) -> None:
         current_dir = './mifit_analyzer'

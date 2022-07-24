@@ -33,7 +33,7 @@ class MifitReport:
         return self.mifit_data.data.shape[0]
 
     def __repr__(self) -> str:
-        return repr(self.mifit_data.data.describe())
+        return f'MifitReport(user_name={self.user}, daily_steps_goal={self.daily_steps_goal})'
 
     def make_report(self) -> None:
         today = datetime.now().strftime('%Y.%m.%d')

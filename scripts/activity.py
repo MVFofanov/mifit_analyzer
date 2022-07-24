@@ -28,8 +28,8 @@ class Activity(MifitData):
         else:
             self.end_date = self.date_max
 
-        Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
-        Path(self.path_to_plots).mkdir(parents=True, exist_ok=True)
+    def __repr__(self) -> str:
+        return f'Activity(start_date={self.start_date}, end_date={self.end_date})'
 
     def select_date_range(self):
         if self.start_date != self.date_min or self.end_date != self.date_max:
@@ -63,7 +63,12 @@ class Activity(MifitData):
         plt.close("all")
 
     def transform_data_for_analysis(self) -> None:
-        self.data['date'] = self.data['date'].apply(pd.to_datetime)
+        self.transform_time_columns_to_datetime()
+        self.add_new_columns()
+        self.select_date_range()
+        self.create_service_directories()
+
+    def add_new_columns(self) -> None:
         self.data['date_weekday'] = self.data['date'].dt.dayofweek
         self.data['date_month'] = self.data['date'].dt.month
         self.data['date_weekday_name'] = self.data['date'].dt.day_name()
@@ -75,8 +80,6 @@ class Activity(MifitData):
         self.data['date_month_name'] = self.data['date_month_name'].astype('category')
         self.data['date_month_name'] = self.data['date_month_name'] \
             .cat.set_categories(self.month_names)
-
-        self.select_date_range()
 
     def make_activity_steps_distance_scatterplot(self) -> None:
         sns.set_style('whitegrid')

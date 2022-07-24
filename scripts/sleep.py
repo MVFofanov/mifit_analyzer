@@ -30,8 +30,9 @@ class Sleep(MifitData):
 
         self.hours_difference = hours_difference
 
-        Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
-        Path(self.path_to_plots).mkdir(parents=True, exist_ok=True)
+    def __repr__(self) -> str:
+        return f'Sleep(start_date={self.start_date}, end_date={self.end_date}, ' \
+               f'hours_difference={self.hours_difference})'
 
     def select_date_range(self):
         if self.start_date != self.date_min or self.end_date != self.date_max:
@@ -41,14 +42,15 @@ class Sleep(MifitData):
             self.date_max: datetime = self.end_date
 
     def transform_data_for_analysis(self) -> None:
-        self.transform_sleep_time_columns_to_datetime()
-        self.add_new_sleep_columns()
+        self.transform_time_columns_to_datetime()
+        self.add_new_columns()
         self.select_date_range()
+        self.create_service_directories()
 
-    def transform_sleep_time_columns_to_datetime(self) -> None:
+    def transform_time_columns_to_datetime(self) -> None:
         self.data[['date', 'start', 'stop']] = self.data[['date', 'start', 'stop']].apply(pd.to_datetime)
 
-    def add_new_sleep_columns(self) -> None:
+    def add_new_columns(self) -> None:
         self.data['totalSleepTime'] = self.data.deepSleepTime + self.data.shallowSleepTime
         self.data['deepSleepTime_hours'] = round(self.data.deepSleepTime / 60, 2)
         self.data['shallowSleepTime_hours'] = round(self.data.shallowSleepTime / 60, 2)
