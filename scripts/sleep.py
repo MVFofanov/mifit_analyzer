@@ -34,13 +34,6 @@ class Sleep(MifitData):
         return f'Sleep(start_date={self.start_date}, end_date={self.end_date}, ' \
                f'hours_difference={self.hours_difference})'
 
-    def select_date_range(self):
-        if self.start_date != self.date_min or self.end_date != self.date_max:
-            self.data = self.data[(self.data.date >= self.start_date) &
-                                  (self.data.date <= self.end_date)]
-            self.date_min: datetime = self.start_date
-            self.date_max: datetime = self.end_date
-
     def transform_data_for_analysis(self) -> None:
         self.transform_time_columns_to_datetime()
         self.add_new_columns()
@@ -54,19 +47,37 @@ class Sleep(MifitData):
 
     def add_new_columns(self) -> None:
         self.data['totalSleepTime'] = self.data.deepSleepTime + self.data.shallowSleepTime
+        self.convert_sleep_minutes_to_hours()
+        self.get_real_start_and_stop_time()
+        self.get_days_and_month_from_date()
+        self.get_days_and_month_names()
+        self.set_the_order_of_days_and_months()
+        self.data['deep_total_sleep_ratio'] = self.data.deepSleepTime_hours / self.data.totalSleepTime_hours
+
+    def convert_sleep_minutes_to_hours(self) -> None:
         self.data['deepSleepTime_hours'] = round(self.data.deepSleepTime / 60, 2)
         self.data['shallowSleepTime_hours'] = round(self.data.shallowSleepTime / 60, 2)
         self.data['totalSleepTime_hours'] = round(self.data.totalSleepTime / 60, 2)
+
+    def get_real_start_and_stop_time(self) -> None:
         self.data['start_real'] = self.data.start + timedelta(hours=self.hours_difference)
         self.data['stop_real'] = self.data.stop + timedelta(hours=self.hours_difference)
+        self.data['start_time_real'] = round(self.data.start_real.dt.hour + self.data.start_real.dt.minute / 60, 2)
+        self.data['stop_time_real'] = round(self.data.stop_real.dt.hour + self.data.stop_real.dt.minute / 60, 2)
+
+    def get_days_and_month_from_date(self) -> None:
         self.data['start_weekday_real'] = self.data.start_real.dt.dayofweek
         self.data['stop_weekday_real'] = self.data.stop_real.dt.dayofweek
         self.data['start_month_real'] = self.data.start_real.dt.month
+        self.data['year_real'] = self.data.start_real.dt.year
+
+    def get_days_and_month_names(self) -> None:
         self.data['start_weekday_name_real'] = self.data.start_real.dt.day_name()
         self.data['stop_weekday_name_real'] = self.data.stop_real.dt.day_name()
         self.data['start_month_name_real'] = self.data.start_real.dt.month_name()
         self.data['stop_month_name_real'] = self.data.stop_real.dt.month_name()
-        self.data['year_real'] = self.data.start_real.dt.year
+
+    def set_the_order_of_days_and_months(self) -> None:
         self.data["start_weekday_name_real"] = self.data["start_weekday_name_real"].astype('category')
         self.data["start_weekday_name_real"] = self.data["start_weekday_name_real"].cat.set_categories(
             self.day_of_the_week_names)
@@ -79,9 +90,13 @@ class Sleep(MifitData):
         self.data["stop_month_name_real"] = self.data["stop_month_name_real"].astype('category')
         self.data["stop_month_name_real"] = self.data["stop_month_name_real"].cat.set_categories(
             self.month_names)
-        self.data['start_time_real'] = round(self.data.start_real.dt.hour + self.data.start_real.dt.minute / 60, 2)
-        self.data['stop_time_real'] = round(self.data.stop_real.dt.hour + self.data.stop_real.dt.minute / 60, 2)
-        self.data['deep_total_sleep_ratio'] = self.data.deepSleepTime_hours / self.data.totalSleepTime_hours
+
+    def select_date_range(self) -> None:
+        if self.start_date != self.date_min or self.end_date != self.date_max:
+            self.data = self.data[(self.data.date >= self.start_date) &
+                                  (self.data.date <= self.end_date)]
+            self.date_min: datetime = self.start_date
+            self.date_max: datetime = self.end_date
 
     def make_sleep_hours_pairplot(self) -> None:
         sleep_hours = self.data[['deepSleepTime_hours', 'shallowSleepTime_hours', 'totalSleepTime_hours']]

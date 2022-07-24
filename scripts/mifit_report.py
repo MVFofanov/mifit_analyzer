@@ -11,7 +11,7 @@ class MifitReport:
     plots_dir = './mifit_analyzer/plots/'
     report_directory = './mifit_analyzer/report/'
 
-    def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int):
+    def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int) -> None:
         self.mifit_data = mifit_data
         self.user = user_name
         self.daily_steps_goal = daily_steps_goal
@@ -104,10 +104,8 @@ class MifitReport:
 
         return sleep_statistics, activity_statistics
 
-    def save_top_step_days_to_csv(self, number_days=10):
+    def save_top_step_days_to_csv(self, number_days=10) -> None:
         top_step_days_df = self.mifit_data.data.sort_values(by='steps', ascending=False)[: number_days]
-
-        # top_step_days_df = self.mifit_data.data[: number_days]
 
         columns = ['date', 'steps', 'distance', 'runDistance', 'calories',
                    'date_month_name', 'date_weekday_name', 'year']
@@ -127,13 +125,13 @@ class MifitReport:
         stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
         out, err = stream.communicate()
 
-    def make_sleep_plots(self):
+    def make_sleep_plots(self) -> None:
         self._make_sleep_common_plots()
         self._make_sleep_hours_boxplots()
         self._make_sleep_deep_and_shallow_hours_boxplots()
         self._make_sleep_start_and_stop_time_plots()
 
-    def _make_sleep_common_plots(self):
+    def _make_sleep_common_plots(self) -> None:
         self.mifit_data.make_sleep_hours_pairplot()
         self.mifit_data.make_sleep_hours_boxplot()
         self.mifit_data.make_sleep_hours_correlations_plot()
@@ -147,7 +145,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_correlations_plot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_hours_scatterplot'))
 
-    def _make_sleep_start_and_stop_time_plots(self):
+    def _make_sleep_start_and_stop_time_plots(self) -> None:
         self.mifit_data.make_sleep_start_and_stop_time_scatterplot()
 
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_start_and_stop_time_scatterplot'))
@@ -155,7 +153,7 @@ class MifitReport:
         self._make_sleep_start_time_boxplots()
         self._make_sleep_stop_time_boxplots()
 
-    def _make_sleep_start_time_boxplots(self):
+    def _make_sleep_start_time_boxplots(self) -> None:
         self.mifit_data.make_sleep_start_time_per_weekday_boxplot()
         self.mifit_data.make_sleep_start_time_per_month_boxplot()
         self.mifit_data.make_sleep_start_time_per_year_boxplot()
@@ -165,7 +163,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_start_time_per_month_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_start_time_per_year_boxplot'))
 
-    def _make_sleep_stop_time_boxplots(self):
+    def _make_sleep_stop_time_boxplots(self) -> None:
         self.mifit_data.make_sleep_stop_time_per_weekday_boxplot()
         self.mifit_data.make_sleep_stop_time_per_month_boxplot()
         self.mifit_data.make_sleep_stop_time_per_year_boxplot()
@@ -175,7 +173,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_stop_time_per_month_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_stop_time_per_year_boxplot'))
 
-    def _make_sleep_hours_boxplots(self):
+    def _make_sleep_hours_boxplots(self) -> None:
         self.mifit_data.make_sleep_hours_per_start_weekday_boxplot()
         self.mifit_data.make_sleep_hours_per_stop_weekday_boxplot()
 
@@ -188,7 +186,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_hours_per_start_month_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_stop_time_per_year_boxplot'))
 
-    def _make_sleep_deep_and_shallow_hours_boxplots(self):
+    def _make_sleep_deep_and_shallow_hours_boxplots(self) -> None:
         self._make_sleep_deep_hours_boxplots()
         self._make_sleep_shallow_hours_boxplots()
 
@@ -196,7 +194,7 @@ class MifitReport:
                                          *self.get_plot_markdown_text('sleep_deep_hours_boxplots')))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_shallow_hours_boxplots'))
 
-    def _make_sleep_deep_hours_boxplots(self):
+    def _make_sleep_deep_hours_boxplots(self) -> None:
         self.mifit_data.make_sleep_deep_hours_per_weekday_boxplot()
         self.mifit_data.make_sleep_deep_hours_per_month_boxplot()
         self.mifit_data.make_sleep_deep_hours_per_year_boxplot()
@@ -206,7 +204,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_deep_hours_per_month_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_deep_hours_per_year_boxplot'))
 
-    def _make_sleep_shallow_hours_boxplots(self):
+    def _make_sleep_shallow_hours_boxplots(self) -> None:
         self.mifit_data.make_sleep_shallow_hours_per_weekday_boxplot()
         self.mifit_data.make_sleep_shallow_hours_per_month_boxplot()
         self.mifit_data.make_sleep_shallow_hours_per_year_boxplot()
@@ -216,14 +214,14 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_shallow_hours_per_month_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_shallow_hours_per_year_boxplot'))
 
-    def make_activity_plots(self):
+    def make_activity_plots(self) -> None:
         self.markdown_plots_list.append('Here you can find your activity plots\n')
 
         self._make_activity_distance_common_plots()
         self._make_activity_distance_boxplots()
         self._make_activity_steps_boxplots()
 
-    def _make_activity_distance_common_plots(self):
+    def _make_activity_distance_common_plots(self) -> None:
         self.mifit_data.make_activity_pairplot()
         self.mifit_data.make_activity_boxplot()
         self.mifit_data.make_activity_steps_distance_scatterplot()
@@ -233,7 +231,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_steps_distance_scatterplot'))
 
-    def _make_activity_distance_boxplots(self):
+    def _make_activity_distance_boxplots(self) -> None:
         self.mifit_data.make_activity_distance_per_weekday_boxplot()
         self.mifit_data.make_activity_distance_per_month_boxplot()
         self.mifit_data.make_activity_distance_per_year_boxplot()
@@ -243,7 +241,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_distance_per_month_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_distance_per_year_boxplot'))
 
-    def _make_activity_steps_boxplots(self):
+    def _make_activity_steps_boxplots(self) -> None:
         self.mifit_data.make_activity_steps_per_weekday_boxplot()
         self.mifit_data.make_activity_steps_per_month_boxplot()
         self.mifit_data.make_activity_steps_per_year_boxplot()
@@ -253,7 +251,7 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_steps_per_month_boxplot'))
         self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_steps_per_year_boxplot'))
 
-    def make_sleep_activity_plots(self):
+    def make_sleep_activity_plots(self) -> None:
         self.mifit_data.make_sleep_activity_correlations_plot()
         self.mifit_data.make_sleep_activity_steps_sleep_per_start_weekday_scatterplot()
         self.mifit_data.make_sleep_activity_steps_sleep_per_stop_weekday_scatterplot()
@@ -265,12 +263,12 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_activity_steps_sleep_per_stop_weekday'
                                                                     '_scatterplot'))
 
-    def make_plots(self):
+    def make_plots(self) -> None:
         self.markdown_plots_list.append('Here you can find your plots\n')
 
         self.make_sleep_plots()
         self.make_activity_plots()
         self.make_sleep_activity_plots()
 
-    def make_statistics(self):
+    def make_statistics(self) -> None:
         pass

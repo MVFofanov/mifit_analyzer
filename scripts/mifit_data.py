@@ -58,7 +58,7 @@ class MifitData:
     def read_my_csv_file(self, path) -> None:
         self.data = pd.read_csv(path, index_col=None, header=0)
 
-    def create_service_directories(self):
+    def create_service_directories(self) -> None:
         Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
         Path(self.path_to_plots).mkdir(parents=True, exist_ok=True)
 

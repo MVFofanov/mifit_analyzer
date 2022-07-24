@@ -31,13 +31,6 @@ class Activity(MifitData):
     def __repr__(self) -> str:
         return f'Activity(start_date={self.start_date}, end_date={self.end_date})'
 
-    def select_date_range(self):
-        if self.start_date != self.date_min or self.end_date != self.date_max:
-            self.data = self.data[(self.data.date >= self.start_date) &
-                                  (self.data.date <= self.end_date)]
-            self.date_min: datetime = self.start_date
-            self.date_max: datetime = self.end_date
-
     def transform_data_for_analysis(self) -> None:
         self.transform_time_columns_to_datetime()
         self.add_new_columns()
@@ -48,17 +41,33 @@ class Activity(MifitData):
         self.data['date'] = pd.to_datetime(self.data['date'], unit='s')
 
     def add_new_columns(self) -> None:
+        self.get_days_and_month_from_date()
+        self.get_days_and_month_names()
+        self.set_the_order_of_days_and_months()
+
+    def get_days_and_month_from_date(self) -> None:
         self.data['date_weekday'] = self.data['date'].dt.dayofweek
         self.data['date_month'] = self.data['date'].dt.month
+        self.data['year'] = self.data['date'].dt.year
+
+    def get_days_and_month_names(self) -> None:
         self.data['date_weekday_name'] = self.data['date'].dt.day_name()
         self.data['date_month_name'] = self.data['date'].dt.month_name()
-        self.data['year'] = self.data['date'].dt.year
+
+    def set_the_order_of_days_and_months(self) -> None:
         self.data['date_weekday_name'] = self.data['date_weekday_name'].astype('category')
         self.data['date_weekday_name'] = self.data['date_weekday_name'] \
             .cat.set_categories(self.day_of_the_week_names)
         self.data['date_month_name'] = self.data['date_month_name'].astype('category')
         self.data['date_month_name'] = self.data['date_month_name'] \
             .cat.set_categories(self.month_names)
+
+    def select_date_range(self) -> None:
+        if self.start_date != self.date_min or self.end_date != self.date_max:
+            self.data = self.data[(self.data.date >= self.start_date) &
+                                  (self.data.date <= self.end_date)]
+            self.date_min: datetime = self.start_date
+            self.date_max: datetime = self.end_date
 
     def make_activity_pairplot(self) -> None:
         activity_data = self.data[['steps', 'distance', 'runDistance', 'calories']]
