@@ -14,10 +14,12 @@ class MifitReport:
     report_directory = './mifit_analyzer/report'
     statistics_directory = './mifit_analyzer/statistics'
 
-    def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int) -> None:
+    def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int,
+                 top_step_days_number: int) -> None:
         self.mifit_data = mifit_data
         self.user = user_name
         self.daily_steps_goal = daily_steps_goal
+        self.number_days = top_step_days_number
 
         self.markdown_plots_list = []
         self.date_min: datetime = self.mifit_data.data.date.min()
@@ -54,7 +56,7 @@ class MifitReport:
         markdown_list.extend((interesting_statistics,
                               'MiFit data sleep statistics\n', sleep_statistics,
                               'MiFit data activity statistics\n', activity_statistics,
-                              'MiFit data top step days\n', top_step_days))
+                              f'MiFit data top {self.number_days} step days\n', top_step_days))
 
         markdown_list.extend(self.markdown_plots_list)
 
@@ -109,8 +111,8 @@ class MifitReport:
 
         return sleep_statistics, activity_statistics, top_step_days
 
-    def save_top_step_days(self, number_days=10) -> None:
-        top_step_days_df = self.mifit_data.data.sort_values(by='steps', ascending=False)[: number_days]
+    def save_top_step_days(self) -> None:
+        top_step_days_df = self.mifit_data.data.sort_values(by='steps', ascending=False)[: self.number_days]
 
         columns = ['date', 'date_weekday_name', 'steps', 'distance', 'runDistance']
         top_step_days_df = top_step_days_df[columns]

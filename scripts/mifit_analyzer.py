@@ -5,7 +5,8 @@ from sleep_activity import SleepActivity
 
 
 def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 'Username',
-         start_date: str | None = None, end_date: str | None = None) -> None:
+         start_date: str | None = None, end_date: str | None = None,
+         top_step_days_number: int = 10) -> None:
 
     sleep1 = Sleep(start_date=start_date, end_date=end_date, hours_difference=hours_difference)
     sleep1.transform_data_for_analysis()
@@ -20,7 +21,8 @@ def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 
 
     report = MifitReport(mifit_data=mifit_data,
                          user_name=user_name,
-                         daily_steps_goal=daily_steps_goal)
+                         daily_steps_goal=daily_steps_goal,
+                         top_step_days_number=top_step_days_number)
     report.make_plots()
     report.make_report()
 
