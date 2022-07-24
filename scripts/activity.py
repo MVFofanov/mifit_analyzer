@@ -77,7 +77,7 @@ class Activity(MifitData):
 
         sns.pairplot(activity_data)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_pairplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_pairplot.png'))
         plt.close("all")
 
     def make_activity_boxplot(self) -> None:
@@ -90,7 +90,7 @@ class Activity(MifitData):
             index += 1
         plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_boxplot.png'))
         plt.close("all")
 
     def make_activity_steps_distance_scatterplot(self) -> None:
@@ -106,7 +106,7 @@ class Activity(MifitData):
         plt.ylabel("Distance", fontsize=self.label_fontsize)
         plt.legend(title="Day of the week")
 
-        plt.savefig(Path(self.path_to_plots, 'activity_steps_distance_scatterplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_steps_distance_scatterplot.png'))
         plt.close("all")
 
     def make_activity_steps_per_weekday_boxplot(self) -> None:
@@ -120,7 +120,7 @@ class Activity(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Steps", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_steps_per_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_steps_per_weekday_boxplot.png'))
         plt.close("all")
 
     def make_activity_distance_per_weekday_boxplot(self) -> None:
@@ -134,7 +134,7 @@ class Activity(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Distance", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_distance_per_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_distance_per_weekday_boxplot.png'))
         plt.close("all")
 
     def make_activity_steps_per_month_boxplot(self) -> None:
@@ -148,7 +148,7 @@ class Activity(MifitData):
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Steps", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_steps_per_month_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_steps_per_month_boxplot.png'))
         plt.close("all")
 
     def make_activity_distance_per_month_boxplot(self) -> None:
@@ -162,7 +162,7 @@ class Activity(MifitData):
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Distance, m", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_distance_per_month_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_distance_per_month_boxplot.png'))
         plt.close("all")
 
     def make_activity_steps_per_year_boxplot(self) -> None:
@@ -176,7 +176,7 @@ class Activity(MifitData):
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Steps", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_steps_per_year_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_steps_per_year_boxplot.png'))
         plt.close("all")
 
     def make_activity_distance_per_year_boxplot(self) -> None:
@@ -190,7 +190,7 @@ class Activity(MifitData):
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Distance, m", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'activity_distance_per_year_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'activity_distance_per_year_boxplot.png'))
         plt.close("all")
 
     def write_statistics_to_csv(self) -> None:

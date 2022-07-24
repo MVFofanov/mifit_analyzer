@@ -106,7 +106,7 @@ class Sleep(MifitData):
 
         sns.pairplot(sleep_hours)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_hours_pairplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_pairplot.png'))
         plt.close("all")
 
     def make_sleep_hours_boxplot(self) -> None:
@@ -131,7 +131,7 @@ class Sleep(MifitData):
 
         plt.title('Sleep time correlations plot', fontsize=self.title_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_hours_correlations_plot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_correlations_plot.png'))
         plt.close("all")
 
     def make_sleep_correlations_plot(self) -> None:
@@ -145,7 +145,7 @@ class Sleep(MifitData):
 
         plt.title('Sleep time correlations plot', fontsize=self.title_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_correlations_plot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_correlations_plot.png'))
         plt.close("all")
 
     def make_sleep_hours_scatterplot(self) -> None:
@@ -162,7 +162,7 @@ class Sleep(MifitData):
         plt.ylabel("Deep sleep, hours", fontsize=self.label_fontsize)
         plt.legend(title="Day of the week")
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_hours_scatterplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_scatterplot.png'))
         plt.close("all")
 
     def make_sleep_hours_per_start_weekday_boxplot(self) -> None:
@@ -176,7 +176,7 @@ class Sleep(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Total sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_hours_per_start_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_per_start_weekday_boxplot.png'))
         plt.close("all")
 
     def make_sleep_hours_per_stop_weekday_boxplot(self) -> None:
@@ -190,7 +190,7 @@ class Sleep(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Total sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_hours_per_stop_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_per_stop_weekday_boxplot.png'))
         plt.close("all")
 
     def make_sleep_hours_per_start_month_boxplot(self) -> None:
@@ -204,7 +204,7 @@ class Sleep(MifitData):
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Total sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_hours_per_start_month_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_per_start_month_boxplot.png'))
         plt.close("all")
 
     def make_sleep_start_and_stop_time_scatterplot(self) -> None:
@@ -220,7 +220,7 @@ class Sleep(MifitData):
         plt.ylabel("Stop sleep time", fontsize=self.label_fontsize)
         plt.legend(title="Day of the week")
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_start_and_stop_time_scatterplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_start_and_stop_time_scatterplot.png'))
         plt.close("all")
 
     def make_sleep_start_time_per_weekday_boxplot(self) -> None:
@@ -234,7 +234,7 @@ class Sleep(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Start sleep time", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_start_time_per_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_start_time_per_weekday_boxplot.png'))
         plt.close("all")
 
     def make_sleep_stop_time_per_weekday_boxplot(self) -> None:
@@ -248,7 +248,7 @@ class Sleep(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Stop sleep time", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_stop_time_per_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_stop_time_per_weekday_boxplot.png'))
         plt.close("all")
 
     def make_sleep_start_time_per_month_boxplot(self) -> None:
@@ -262,7 +262,7 @@ class Sleep(MifitData):
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Start sleep time", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_start_time_per_month_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_start_time_per_month_boxplot.png'))
         plt.close("all")
 
     def make_sleep_stop_time_per_month_boxplot(self) -> None:
@@ -276,7 +276,7 @@ class Sleep(MifitData):
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Stop sleep time", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_stop_time_per_month_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_stop_time_per_month_boxplot.png'))
         plt.close("all")
 
     def make_sleep_start_time_per_year_boxplot(self) -> None:
@@ -290,7 +290,7 @@ class Sleep(MifitData):
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Start sleep time", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_start_time_per_year_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_start_time_per_year_boxplot.png'))
         plt.close("all")
 
     def make_sleep_stop_time_per_year_boxplot(self) -> None:
@@ -304,7 +304,7 @@ class Sleep(MifitData):
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Stop sleep time", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_stop_time_per_year_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_stop_time_per_year_boxplot.png'))
         plt.close("all")
 
     def make_sleep_deep_hours_per_weekday_boxplot(self) -> None:
@@ -318,7 +318,7 @@ class Sleep(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Deep sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_deep_hours_per_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_deep_hours_per_weekday_boxplot.png'))
         plt.close("all")
 
     def make_sleep_shallow_hours_per_weekday_boxplot(self) -> None:
@@ -332,7 +332,7 @@ class Sleep(MifitData):
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Shallow sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_shallow_hours_per_weekday_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_shallow_hours_per_weekday_boxplot.png'))
         plt.close("all")
 
     def make_sleep_deep_hours_per_month_boxplot(self) -> None:
@@ -346,7 +346,7 @@ class Sleep(MifitData):
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Deep sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_deep_hours_per_month_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_deep_hours_per_month_boxplot.png'))
         plt.close("all")
 
     def make_sleep_shallow_hours_per_month_boxplot(self) -> None:
@@ -360,7 +360,7 @@ class Sleep(MifitData):
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Shallow sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_shallow_hours_per_month_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_shallow_hours_per_month_boxplot.png'))
         plt.close("all")
 
     def make_sleep_hours_per_year_boxplot(self) -> None:
@@ -374,7 +374,7 @@ class Sleep(MifitData):
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Total sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_hours_per_year_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_per_year_boxplot.png'))
         plt.close("all")
 
     def make_sleep_deep_hours_per_year_boxplot(self) -> None:
@@ -388,7 +388,7 @@ class Sleep(MifitData):
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Deep sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_deep_hours_per_year_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_deep_hours_per_year_boxplot.png'))
         plt.close("all")
 
     def make_sleep_shallow_hours_per_year_boxplot(self) -> None:
@@ -402,7 +402,7 @@ class Sleep(MifitData):
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Shallow sleep time, hours", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_shallow_hours_per_year_boxplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_shallow_hours_per_year_boxplot.png'))
         plt.close("all")
 
     def write_statistics_to_csv(self) -> None:

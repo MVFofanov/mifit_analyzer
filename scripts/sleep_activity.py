@@ -39,7 +39,7 @@ class SleepActivity(Sleep, Activity):
         plt.xlabel("Features", fontsize=self.label_fontsize)
         plt.ylabel("Features", fontsize=self.label_fontsize)
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_activity_correlations_plot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_activity_correlations_plot.png'))
         plt.close("all")
 
     def make_sleep_activity_steps_sleep_per_start_weekday_scatterplot(self) -> None:
@@ -55,7 +55,7 @@ class SleepActivity(Sleep, Activity):
         plt.ylabel("Total sleep time, hours", fontsize=self.label_fontsize)
         plt.legend(title="Day of the week")
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_activity_steps_sleep_per_start_weekday_scatterplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_activity_steps_sleep_per_start_weekday_scatterplot.png'))
         plt.close("all")
 
     def make_sleep_activity_steps_sleep_per_stop_weekday_scatterplot(self) -> None:
@@ -71,7 +71,7 @@ class SleepActivity(Sleep, Activity):
         plt.ylabel("Total sleep time, hours", fontsize=self.label_fontsize)
         plt.legend(title="Day of the week")
 
-        plt.savefig(Path(self.path_to_plots, 'sleep_activity_steps_sleep_per_stop_weekday_scatterplot.png'))
+        plt.savefig(Path(self.plots_directory, 'sleep_activity_steps_sleep_per_stop_weekday_scatterplot.png'))
         plt.close("all")
 
     def write_statistics_to_csv(self) -> None:

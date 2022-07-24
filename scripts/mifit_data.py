@@ -6,8 +6,8 @@ import pandas as pd
 
 
 class MifitData:
-    plot_figsize = (12, 8)
-    path_to_plots = './mifit_analyzer/plots/'
+    current_directory = './mifit_analyzer'
+    plots_directory = './mifit_analyzer/plots/'
     statistics_directory = './mifit_analyzer/statistics/'
 
     day_of_the_week_names = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
@@ -18,6 +18,7 @@ class MifitData:
     hour_axis_labels = [i for i in range(0, 25, 2)]
     title_fontsize = 20
     label_fontsize = 16
+    plot_figsize = (12, 8)
 
     def __init__(self) -> None:
         self.data = None
@@ -34,13 +35,13 @@ class MifitData:
     def transform_data_for_analysis(self) -> None:
         raise NotImplementedError
 
-    def write_statistics_to_csv(self) -> None:
-        raise NotImplementedError
-
     def transform_time_columns_to_datetime(self) -> None:
         raise NotImplementedError
 
     def add_new_columns(self) -> None:
+        raise NotImplementedError
+
+    def write_statistics_to_csv(self) -> None:
         raise NotImplementedError
 
     def read_all_csv_files(self) -> pd.DataFrame:
@@ -60,14 +61,7 @@ class MifitData:
 
     def create_service_directories(self) -> None:
         Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
-        Path(self.path_to_plots).mkdir(parents=True, exist_ok=True)
-
-    @staticmethod
-    def convert_markdown_to_html() -> None:
-        arg_list = ['pandoc', '--self-contained', '-s', './mifit_analyzer/report/report.md', '-o',
-                    './mifit_analyzer/report/report.html']
-        stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
-        out, err = stream.communicate()
+        Path(self.plots_directory).mkdir(parents=True, exist_ok=True)
 
     def convert_csv_to_markdown(self) -> None:
         arg_list = ['pandoc', '-f', 'csv', '-t', 'markdown',
