@@ -33,5 +33,5 @@ if __name__ == "__main__":
     main(user_name='Mikhail',
          hours_difference=7,
          daily_steps_goal=8000,
-         start_date='2015.07.02',
-         end_date='2021.05.04')
+         start_date='1900.07.02',
+         end_date='2077.05.04')

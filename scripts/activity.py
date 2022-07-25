@@ -17,6 +17,9 @@ class Activity(MifitData):
 
         self.data: pd.DataFrame = self.read_all_csv_files()
 
+        self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
+        self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
+
         self.date_min: datetime = self.data.date.min()
         self.date_max: datetime = self.data.date.max()
 
@@ -101,8 +104,8 @@ class Activity(MifitData):
 
         sns.scatterplot(data=self.data, x="steps", y="distance", hue="date_weekday_name")
 
-        plt.xticks([i for i in range(0, self.data.steps.max(), 2000)])
-        plt.yticks([i for i in range(0, self.data.distance.max(), 2000)])
+        plt.xticks(self.steps_axis_labels)
+        plt.yticks(self.distance_axis_labels)
         plt.title('Steps and distance plot', fontsize=self.title_fontsize)
         plt.xlabel("Steps", fontsize=self.label_fontsize)
         plt.ylabel("Distance", fontsize=self.label_fontsize)
@@ -117,7 +120,7 @@ class Activity(MifitData):
 
         sns.boxplot(data=self.data, y="steps", x="date_weekday_name")
 
-        plt.yticks([i for i in range(0, self.data.steps.max(), 2000)])
+        plt.yticks(self.steps_axis_labels)
         plt.title('Steps per day of the week plot', fontsize=self.title_fontsize)
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Steps", fontsize=self.label_fontsize)
@@ -131,7 +134,7 @@ class Activity(MifitData):
 
         sns.boxplot(data=self.data, y="distance", x="date_weekday_name")
 
-        plt.yticks([i for i in range(0, self.data.distance.max(), 2000)])
+        plt.yticks(self.distance_axis_labels)
         plt.title('Distance per day of the week plot', fontsize=self.title_fontsize)
         plt.xlabel("Day of the week", fontsize=self.label_fontsize)
         plt.ylabel("Distance", fontsize=self.label_fontsize)
@@ -145,7 +148,7 @@ class Activity(MifitData):
 
         sns.boxplot(data=self.data, y="steps", x="date_month_name")
 
-        plt.yticks([i for i in range(0, self.data.steps.max(), 2000)])
+        plt.yticks(self.steps_axis_labels)
         plt.title('Steps per month plot', fontsize=self.title_fontsize)
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Steps", fontsize=self.label_fontsize)
@@ -159,7 +162,7 @@ class Activity(MifitData):
 
         sns.boxplot(data=self.data, y="distance", x="date_month_name")
 
-        plt.yticks([i for i in range(0, self.data.distance.max(), 2000)])
+        plt.yticks(self.distance_axis_labels)
         plt.title('Distance per month plot', fontsize=self.title_fontsize)
         plt.xlabel("Month", fontsize=self.label_fontsize)
         plt.ylabel("Distance, m", fontsize=self.label_fontsize)
@@ -173,7 +176,7 @@ class Activity(MifitData):
 
         sns.boxplot(data=self.data, y="steps", x="year")
 
-        plt.yticks([i for i in range(0, self.data.steps.max(), 2000)])
+        plt.yticks(self.steps_axis_labels)
         plt.title('Steps per year plot', fontsize=self.title_fontsize)
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Steps", fontsize=self.label_fontsize)
@@ -187,7 +190,7 @@ class Activity(MifitData):
 
         sns.boxplot(data=self.data, y="distance", x="year")
 
-        plt.yticks([i for i in range(0, self.data.distance.max(), 2000)])
+        plt.yticks(self.distance_axis_labels)
         plt.title('Distance per year plot', fontsize=self.title_fontsize)
         plt.xlabel("Year", fontsize=self.label_fontsize)
         plt.ylabel("Distance, m", fontsize=self.label_fontsize)

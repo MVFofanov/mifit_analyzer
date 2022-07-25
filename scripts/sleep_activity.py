@@ -27,6 +27,9 @@ class SleepActivity(Sleep, Activity):
         self.sleep_for_merge = None
         self.activity_for_merge = None
 
+        self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
+        self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
+
     def make_sleep_activity_correlations_plot(self) -> None:
         sns.set_style('whitegrid')
         plt.figure(figsize=self.plot_figsize)
@@ -48,7 +51,7 @@ class SleepActivity(Sleep, Activity):
 
         sns.scatterplot(data=self.data, x="steps", y="totalSleepTime_hours", hue="start_weekday_name_real")
 
-        plt.xticks([i for i in range(0, self.data.steps.max(), 2000)])
+        plt.xticks(self.steps_axis_labels)
         plt.yticks(self.hour_axis_labels)
         plt.title('Steps and total sleep time plot', fontsize=self.title_fontsize)
         plt.xlabel("Steps", fontsize=self.label_fontsize)
@@ -64,7 +67,7 @@ class SleepActivity(Sleep, Activity):
 
         sns.scatterplot(data=self.data, x="steps", y="totalSleepTime_hours", hue="stop_weekday_name_real")
 
-        plt.xticks([i for i in range(0, self.data.steps.max(), 2000)])
+        plt.xticks(self.steps_axis_labels)
         plt.yticks(self.hour_axis_labels)
         plt.title('Steps and total sleep time plot', fontsize=self.title_fontsize)
         plt.xlabel("Steps", fontsize=self.label_fontsize)
