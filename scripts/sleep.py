@@ -12,19 +12,22 @@ class Sleep(MifitData):
     directory_name = 'SLEEP'
     statistics_file_name = './mifit_analyzer/statistics/sleep_statistics'
 
-    def __init__(self, start_date: str | None, end_date: str | None, hours_difference: int) -> None:
+    def __init__(self, start_date: str | None, end_date: str | None, hours_difference: int,
+                 date_format: str) -> None:
+        self.date_format = date_format
+
         self.data: pd.DataFrame = self.read_all_csv_files()
 
         self.date_min: datetime = self.data.date.min()
         self.date_max: datetime = self.data.date.max()
 
         if start_date is not None:
-            self.start_date: datetime = datetime.strptime(start_date, '%Y.%m.%d')
+            self.start_date: datetime = datetime.strptime(start_date, self.date_format)
         else:
             self.start_date = self.date_min
 
         if end_date is not None:
-            self.end_date: datetime = datetime.strptime(end_date, '%Y.%m.%d')
+            self.end_date: datetime = datetime.strptime(end_date, self.date_format)
         else:
             self.end_date = self.date_max
 

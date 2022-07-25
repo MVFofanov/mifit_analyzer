@@ -15,7 +15,9 @@ class MifitReport:
     statistics_directory = './mifit_analyzer/statistics'
 
     def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int,
-                 top_step_days_number: int) -> None:
+                 top_step_days_number: int, date_format: str) -> None:
+        self.date_format = date_format
+
         self.mifit_data = mifit_data
         self.user = user_name
         self.daily_steps_goal = daily_steps_goal
@@ -41,7 +43,7 @@ class MifitReport:
         return f'MifitReport(user_name={self.user}, daily_steps_goal={self.daily_steps_goal})'
 
     def make_report(self) -> None:
-        today = datetime.now().strftime('%Y.%m.%d')
+        today = datetime.now().strftime(self.date_format)
 
         markdown_list = [f'---\n'
                          f'title: "MiFit data analysis report"\n'
@@ -82,8 +84,8 @@ class MifitReport:
             file_md.write('\n'.join(markdown_list))
 
     def get_interesting_statistics(self) -> str:
-        text = f'You have been wearing a fitness bracelet from {self.date_min.strftime("%Y.%m.%d")} to ' \
-               f'{self.date_max.strftime("%Y.%m.%d")}.\n\n' \
+        text = f'You have been wearing a fitness bracelet from {self.date_min.strftime(self.date_format)} to ' \
+               f'{self.date_max.strftime(self.date_format)}.\n\n' \
                f'Data are available for {len(self)} ({round(len(self) / self.date_difference * 100, 2)}%) days out ' \
                f'of {self.date_difference} total days.\n\n' \
                f'Your daily steps goal is {self.daily_steps_goal} steps a day.\n\n' \
