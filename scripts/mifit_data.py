@@ -1,4 +1,5 @@
 import glob
+from datetime import datetime
 from pathlib import Path
 import subprocess
 
@@ -33,11 +34,13 @@ class MifitData:
     label_fontsize = 16
     plot_figsize = (12, 8)
 
-    # def __init__(self) -> None:
-    #     self.data = None
-    #     self.directory_name: str | None = None
-    #     self.user = None
-    #     self.statistics_file_name = None
+    def __init__(self) -> None:
+        self.directory_name: str | None = None
+        self.statistics_file_name: str | None = None
+
+        self.data = pd.DataFrame(columns=['A', 'B', 'C'], index=range(3))
+
+        self.start_date = self.end_date = self.date_min = self.date_max = datetime.now()
 
     def __len__(self) -> int:
         return self.data.shape[0]
@@ -72,3 +75,8 @@ class MifitData:
     def create_service_directories(self) -> None:
         Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
         Path(self.plots_directory).mkdir(parents=True, exist_ok=True)
+
+    def select_date_range(self) -> None:
+        if self.start_date != self.date_min or self.end_date != self.date_max:
+            self.data = self.data[(self.data.date >= self.start_date) &
+                                  (self.data.date <= self.end_date)]

@@ -26,7 +26,7 @@ class MifitReport:
         self.daily_steps_goal = daily_steps_goal
         self.number_days = top_step_days_number
 
-        self.markdown_plots_list = []
+        self.markdown_plots_list: list[str] = []
         self.date_min: datetime = self.mifit_data.data.date.min()
         self.date_max: datetime = self.mifit_data.data.date.max()
 

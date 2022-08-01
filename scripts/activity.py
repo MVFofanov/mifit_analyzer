@@ -12,7 +12,7 @@ class Activity(MifitData):
     directory_name = 'ACTIVITY'
     statistics_file_name = './mifit_analyzer/statistics/activity_statistics'
 
-    def __init__(self, start_date: str, end_date: str, date_format: str) -> None:
+    def __init__(self, start_date: str | None, end_date: str | None, date_format: str) -> None:
         self.date_format = date_format
 
         self.data: pd.DataFrame = self.read_all_csv_files()
@@ -66,13 +66,6 @@ class Activity(MifitData):
         self.data['date_month_name'] = self.data['date_month_name'].astype('category')
         self.data['date_month_name'] = self.data['date_month_name'] \
             .cat.set_categories(self.month_names)
-
-    def select_date_range(self) -> None:
-        if self.start_date != self.date_min or self.end_date != self.date_max:
-            self.data = self.data[(self.data.date >= self.start_date) &
-                                  (self.data.date <= self.end_date)]
-            self.date_min: datetime = self.start_date
-            self.date_max: datetime = self.end_date
 
     def make_activity_pairplot(self) -> None:
         activity_data = self.data[['steps', 'distance', 'runDistance', 'calories']]

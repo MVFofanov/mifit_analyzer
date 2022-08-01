@@ -94,13 +94,6 @@ class Sleep(MifitData):
         self.data["stop_month_name_real"] = self.data["stop_month_name_real"].cat.set_categories(
             self.month_names)
 
-    def select_date_range(self) -> None:
-        if self.start_date != self.date_min or self.end_date != self.date_max:
-            self.data = self.data[(self.data.date >= self.start_date) &
-                                  (self.data.date <= self.end_date)]
-            self.date_min: datetime = self.start_date
-            self.date_max: datetime = self.end_date
-
     def make_sleep_hours_pairplot(self) -> None:
         sleep_hours = self.data[['deepSleepTime_hours', 'shallowSleepTime_hours', 'totalSleepTime_hours']]
 
