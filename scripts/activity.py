@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from mifit_data import MifitData
+from mifit_data import MifitData, convert_csv_to_markdown
 
 
 class Activity(MifitData):
@@ -206,4 +206,7 @@ class Activity(MifitData):
 
         desired_columns.to_csv(f'{self.statistics_file_name}.csv')
 
-        self.convert_csv_to_markdown()
+        convert_csv_to_markdown(csv_file=self.statistics_file_name)
+
+    def find_date_range_length_by_daily_steps_goal(self):
+        pass

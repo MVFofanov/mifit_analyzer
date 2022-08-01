@@ -5,6 +5,7 @@ import subprocess
 
 import pandas as pd
 
+from mifit_data import convert_csv_to_markdown
 from sleep_activity import SleepActivity
 
 
@@ -13,6 +14,8 @@ class MifitReport:
     plots_directory = './mifit_analyzer/plots'
     report_directory = './mifit_analyzer/report'
     statistics_directory = './mifit_analyzer/statistics'
+
+    top_step_days_file_name = f'{statistics_directory}/top_step_days'
 
     def __init__(self, mifit_data: SleepActivity, user_name: str, daily_steps_goal: int,
                  top_step_days_number: int, date_format: str) -> None:
@@ -125,11 +128,7 @@ class MifitReport:
 
         top_step_days_df.to_csv(f'{self.statistics_directory}/top_step_days.csv', index=False)
 
-        arg_list = ['pandoc', '-f', 'csv', '-t', 'markdown',
-                    '-s', f'{self.statistics_directory}/top_step_days.csv',
-                    '-o', f'{self.statistics_directory}/top_step_days.md']
-        stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
-        out, err = stream.communicate()
+        convert_csv_to_markdown(csv_file=self.top_step_days_file_name)
 
     def convert_report_to_html(self) -> None:
         arg_list = ['pandoc', '--self-contained', '-s', f'{self.report_directory}/report.md', '-o',

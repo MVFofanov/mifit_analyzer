@@ -5,6 +5,7 @@ import pandas as pd
 import seaborn as sns
 
 from activity import Activity
+from mifit_data import convert_csv_to_markdown
 from sleep import Sleep
 
 
@@ -89,4 +90,4 @@ class SleepActivity(Sleep, Activity):
 
         desired_columns.to_csv(f'{self.statistics_file_name}.csv')
 
-        self.convert_csv_to_markdown()
+        convert_csv_to_markdown(csv_file=self.statistics_file_name)

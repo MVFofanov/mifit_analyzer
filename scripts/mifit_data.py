@@ -5,6 +5,19 @@ import subprocess
 import pandas as pd
 
 
+def convert_csv_to_markdown(csv_file: str) -> None:
+    arg_list = ['pandoc', '-f', 'csv', '-t', 'markdown',
+                '-s', f'{csv_file}.csv',
+                '-o', f'{csv_file}.md']
+    stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
+    out, err = stream.communicate()
+
+
+def read_my_csv_file(path: str) -> pd.DataFrame:
+    data = pd.read_csv(path, index_col=None, header=0)
+    return data
+
+
 class MifitData:
     current_directory = './mifit_analyzer'
     plots_directory = './mifit_analyzer/plots/'
@@ -20,11 +33,11 @@ class MifitData:
     label_fontsize = 16
     plot_figsize = (12, 8)
 
-    def __init__(self) -> None:
-        self.data = None
-        self.directory_name: str | None = None
-        self.user = None
-        self.statistics_file_name = None
+    # def __init__(self) -> None:
+    #     self.data = None
+    #     self.directory_name: str | None = None
+    #     self.user = None
+    #     self.statistics_file_name = None
 
     def __len__(self) -> int:
         return self.data.shape[0]
@@ -56,16 +69,6 @@ class MifitData:
         df = pd.concat(df_list, axis=0, ignore_index=True)
         return df
 
-    def read_my_csv_file(self, path) -> None:
-        self.data = pd.read_csv(path, index_col=None, header=0)
-
     def create_service_directories(self) -> None:
         Path(self.statistics_directory).mkdir(parents=True, exist_ok=True)
         Path(self.plots_directory).mkdir(parents=True, exist_ok=True)
-
-    def convert_csv_to_markdown(self) -> None:
-        arg_list = ['pandoc', '-f', 'csv', '-t', 'markdown',
-                    '-s', f'{self.statistics_file_name}.csv',
-                    '-o', f'{self.statistics_file_name}.md']
-        stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
-        out, err = stream.communicate()
