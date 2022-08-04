@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from mifit_data import MifitData, convert_csv_to_markdown
+from base_mifit_data import BaseMifitData, convert_csv_to_markdown
 
 
-class Sleep(MifitData):
+class SleepData(BaseMifitData):
     directory_name = 'SLEEP'
     statistics_file_name = './mifit_analyzer/statistics/sleep_statistics'
 
@@ -34,7 +34,7 @@ class Sleep(MifitData):
         self.hours_difference = hours_difference
 
     def __repr__(self) -> str:
-        return f'Sleep(start_date={self.start_date}, end_date={self.end_date}, ' \
+        return f'SleepData(start_date={self.start_date}, end_date={self.end_date}, ' \
                f'hours_difference={self.hours_difference})'
 
     def transform_data_for_analysis(self) -> None:

@@ -4,15 +4,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from activity import Activity
-from mifit_data import convert_csv_to_markdown
-from sleep import Sleep
+from activity import ActivityData
+from base_mifit_data import convert_csv_to_markdown
+from sleep import SleepData
 
 
-class SleepActivity(Sleep, Activity):
+class SleepActivityData(SleepData, ActivityData):
     statistics_file_name = './mifit_analyzer/statistics/sleep_activity_statistics'
 
-    def __init__(self, sleep: Sleep, activity: Activity) -> None:
+    def __init__(self, sleep: SleepData, activity: ActivityData) -> None:
 
         self.sleep_for_merge: pd.DataFramee = \
             sleep.data[['date', 'deepSleepTime_hours',

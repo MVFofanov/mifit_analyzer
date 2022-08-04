@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from mifit_data import MifitData, convert_csv_to_markdown
+from base_mifit_data import BaseMifitData, convert_csv_to_markdown
 
 
-class Activity(MifitData):
+class ActivityData(BaseMifitData):
     directory_name = 'ACTIVITY'
     statistics_file_name = './mifit_analyzer/statistics/activity_statistics'
 
@@ -34,7 +34,7 @@ class Activity(MifitData):
             self.end_date = self.date_max
 
     def __repr__(self) -> str:
-        return f'Activity(start_date={self.start_date}, end_date={self.end_date})'
+        return f'ActivityData(start_date={self.start_date}, end_date={self.end_date})'
 
     def transform_data_for_analysis(self) -> None:
         self.transform_time_columns_to_datetime()

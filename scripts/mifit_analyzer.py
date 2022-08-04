@@ -1,26 +1,26 @@
-from activity import Activity
-from mifit_report import MifitReport
-from sleep import Sleep
-from sleep_activity import SleepActivity
+from activity import ActivityData
+from report import MifitReport
+from sleep import SleepData
+from sleep_activity import SleepActivityData
 
 
 def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 'Username',
          start_date: str | None = None, end_date: str | None = None,
          top_step_days_number: int = 10, date_format: str = '%Y.%m.%d') -> None:
 
-    sleep1 = Sleep(start_date=start_date, end_date=end_date, hours_difference=hours_difference,
-                   date_format=date_format)
-    sleep1.transform_data_for_analysis()
-    sleep1.write_statistics_to_csv()
+    sleep = SleepData(start_date=start_date, end_date=end_date, hours_difference=hours_difference,
+                      date_format=date_format)
+    sleep.transform_data_for_analysis()
+    sleep.write_statistics_to_csv()
 
-    activity1 = Activity(start_date=start_date, end_date=end_date, date_format=date_format)
-    activity1.transform_data_for_analysis()
-    activity1.write_statistics_to_csv()
+    activity = ActivityData(start_date=start_date, end_date=end_date, date_format=date_format)
+    activity.transform_data_for_analysis()
+    activity.write_statistics_to_csv()
 
-    mifit_data = SleepActivity(sleep=sleep1, activity=activity1)
-    mifit_data.write_statistics_to_csv()
+    sleep_activity = SleepActivityData(sleep=sleep, activity=activity)
+    sleep_activity.write_statistics_to_csv()
 
-    report = MifitReport(mifit_data=mifit_data,
+    report = MifitReport(mifit_data=sleep_activity,
                          user_name=user_name,
                          daily_steps_goal=daily_steps_goal,
                          top_step_days_number=top_step_days_number,
