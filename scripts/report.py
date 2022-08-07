@@ -1,12 +1,27 @@
 from datetime import datetime
 import glob
 from pathlib import Path
+from typing import NamedTuple
 import subprocess
 
 import pandas as pd
 
 from base_mifit_data import convert_csv_to_markdown
 from sleep_activity import SleepActivityData
+
+
+class TotalRecords(NamedTuple):
+    start_date: str
+    end_date: str
+    available_days_percent: float
+    daily_steps_goal_achieved_days_percent: float
+    total_sleep_days_number: float
+    total_sleep_days_percent: float
+    total_distance_kilometers: float
+    total_distance_kilosteps: float
+    total_burned_kilocalories: float
+    total_run_kilometers: float
+    stride_length: float
 
 
 class MifitReport:
@@ -54,7 +69,8 @@ class MifitReport:
                          f'date: {today}\n'
                          f'---']
 
-        interesting_statistics = self.get_interesting_statistics()
+        records = self.get_total_records()
+        interesting_statistics = self.get_interesting_statistics(records)
         self.save_top_step_days()
         sleep_statistics, activity_statistics, top_step_days = self.get_mifit_statistics()
 
@@ -86,22 +102,37 @@ class MifitReport:
         with open(f"{self.report_directory}/report.md", 'w') as file_md:
             file_md.write('\n'.join(markdown_list))
 
-    def get_interesting_statistics(self) -> str:
-        text = f'You have been wearing a fitness bracelet from {self.date_min.strftime(self.date_format)} to ' \
-               f'{self.date_max.strftime(self.date_format)}.\n\n' \
-               f'Data are available for {len(self)} ({round(len(self) / self.date_difference * 100, 2)}%) days out ' \
+    def get_total_records(self):
+        return TotalRecords(start_date=self.date_min.strftime(self.date_format),
+                            end_date=self.date_max.strftime(self.date_format),
+                            available_days_percent=round(len(self) / self.date_difference * 100, 2),
+                            daily_steps_goal_achieved_days_percent=round(self.daily_steps_goal_achieved_days /
+                                                                         len(self) * 100, 2),
+                            total_sleep_days_number=round(self.total_sleep_time_sum / 24, 2),
+                            total_sleep_days_percent=round(self.total_sleep_time_sum / 24 / len(self) * 100, 2),
+                            total_distance_kilometers=round(self.distance_sum / 1000, 2),
+                            total_distance_kilosteps=round(self.steps_sum / 1000, 2),
+                            total_burned_kilocalories=round(self.mifit_data.data.calories.sum() / 1000, 2),
+                            total_run_kilometers=round(self.mifit_data.data.runDistance.sum() / 1000, 2),
+                            stride_length=round(self.distance_sum / self.steps_sum, 2)
+                            )
+
+    def get_interesting_statistics(self, records: TotalRecords) -> str:
+        text = f'You have been wearing a fitness bracelet from {records.start_date} to ' \
+               f'{records.end_date}.\n\n' \
+               f'Data are available for {len(self)} ({records.available_days_percent}%) days out ' \
                f'of {self.date_difference} total days.\n\n' \
                f'Your daily steps goal is {self.daily_steps_goal} steps a day.\n\n' \
                f'You have successfully achieved your daily steps goal during {self.daily_steps_goal_achieved_days} ' \
-               f'({round(self.daily_steps_goal_achieved_days / len(self) * 100, 2)}%) days in total.\n\n' \
-               f'You slept for {round(self.total_sleep_time_sum / 24, 2)} ' \
-               f'({round(self.total_sleep_time_sum / 24 / len(self) * 100, 2)}%) days in total.\n\n' \
-               f'You walked {round(self.distance_sum / 1000, 2)} kilometers in total.\n\n' \
-               f'You walked {round(self.steps_sum / 1000, 2)} thousand steps in total.\n\n' \
-               f'You burned {round(self.mifit_data.data.calories.sum() / 1000, 2)} kilocalories while walking.\n\n' \
-               f'You ran {round(self.mifit_data.data.runDistance.sum() / 1000, 2)} kilometers.\n\n' \
+               f'({records.daily_steps_goal_achieved_days_percent}%) days in total.\n\n' \
+               f'You slept for {records.total_sleep_days_number} ' \
+               f'({records.total_sleep_days_percent}%) days in total.\n\n' \
+               f'You walked {records.total_distance_kilometers} kilometers in total.\n\n' \
+               f'You walked {records.total_distance_kilosteps} thousand steps in total.\n\n' \
+               f'You burned {records.total_burned_kilocalories} kilocalories while walking.\n\n' \
+               f'You ran {records.total_run_kilometers} kilometers.\n\n' \
                f'Your stride length is ' \
-               f'{round(self.distance_sum / self.steps_sum, 2)} meter.\n\n'
+               f'{records.stride_length} meter.\n\n'
         return text
 
     def get_mifit_statistics(self) -> tuple[str, str, str]:
