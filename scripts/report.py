@@ -102,7 +102,7 @@ class MifitReport:
         with open(f"{self.report_directory}/report.md", 'w') as file_md:
             file_md.write('\n'.join(markdown_list))
 
-    def get_total_records(self):
+    def get_total_records(self) -> TotalRecords:
         return TotalRecords(start_date=self.date_min.strftime(self.date_format),
                             end_date=self.date_max.strftime(self.date_format),
                             available_days_percent=round(len(self) / self.date_difference * 100, 2),
