@@ -17,7 +17,7 @@ class ActivityStageData(BaseMifitData):
 
         self.data: pd.DataFrame = self.read_all_csv_files()
 
-        self.speed_km_h_axis_labels = None
+        self.speed_km_h_axis_labels: list | None = None
 
         self.date_min: datetime = self.data.date.min()
         self.date_max: datetime = self.data.date.max()
