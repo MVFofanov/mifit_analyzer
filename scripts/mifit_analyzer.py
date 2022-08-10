@@ -26,6 +26,7 @@ def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 
     sleep_activity.write_statistics_to_csv()
 
     report = MifitReport(mifit_data=sleep_activity,
+                         activity_stage=activity_stage,
                          user_name=user_name,
                          daily_steps_goal=daily_steps_goal,
                          top_step_days_number=top_step_days_number,

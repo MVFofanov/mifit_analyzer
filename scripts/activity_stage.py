@@ -17,6 +17,8 @@ class ActivityStageData(BaseMifitData):
 
         self.data: pd.DataFrame = self.read_all_csv_files()
 
+        self.speed_km_h_axis_labels = None
+
         self.date_min: datetime = self.data.date.min()
         self.date_max: datetime = self.data.date.max()
 
@@ -39,6 +41,8 @@ class ActivityStageData(BaseMifitData):
         self.select_date_range()
         self.create_service_directories()
 
+        self.speed_km_h_axis_labels = [i for i in range(0, int(self.data.kilometers_per_hour.max()))]
+
     def transform_time_columns_to_datetime(self) -> None:
         self.data['date'] = pd.to_datetime(self.data['date'])
         self.data['start'] = pd.to_datetime(self.data['start'])
@@ -50,6 +54,20 @@ class ActivityStageData(BaseMifitData):
         self.data['meters_per_minute'] = self.data.distance / self.data.minute_difference
         self.data['meters_per_second'] = self.data.meters_per_minute / 60
         self.data['kilometers_per_hour'] = self.data.meters_per_second * 3600 / 1000
+
+    def make_activity_stage_histplot_km_h(self) -> None:
+        sns.set_style('whitegrid')
+        plt.figure(figsize=self.plot_figsize)
+
+        sns.histplot(self.data, x='kilometers_per_hour', bins=60)
+
+        plt.xticks(self.speed_km_h_axis_labels)
+        plt.title('Kilometers per hour plot', fontsize=self.title_fontsize)
+        plt.xlabel("Kilometers per hour", fontsize=self.label_fontsize)
+        plt.ylabel("Count", fontsize=self.label_fontsize)
+
+        plt.savefig(Path(self.plots_directory, 'activity_stage_histplot_km_h.png'))
+        plt.close("all")
 
     def write_statistics_to_csv(self) -> None:
 

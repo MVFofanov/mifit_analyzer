@@ -7,6 +7,7 @@ import subprocess
 import pandas as pd
 
 from base_mifit_data import convert_csv_to_markdown
+from activity_stage import ActivityStageData
 from sleep_activity import SleepActivityData
 
 
@@ -32,11 +33,14 @@ class MifitReport:
 
     top_step_days_file_name = f'{statistics_directory}/top_step_days'
 
-    def __init__(self, mifit_data: SleepActivityData, user_name: str, daily_steps_goal: int,
+    def __init__(self, mifit_data: SleepActivityData, activity_stage: ActivityStageData,
+                 user_name: str, daily_steps_goal: int,
                  top_step_days_number: int, date_format: str) -> None:
         self.date_format = date_format
 
         self.mifit_data = mifit_data
+        self.activity_stage = activity_stage
+
         self.user = user_name
         self.daily_steps_goal = daily_steps_goal
         self.number_days = top_step_days_number
@@ -309,12 +313,23 @@ class MifitReport:
         self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_activity_steps_sleep_per_stop_weekday'
                                                                     '_scatterplot'))
 
+    def make_activity_stage_plots(self) -> None:
+        self.markdown_plots_list.append('Here you can find your activity stage plots\n')
+
+        self._make_activity_stage_km_h_plots()
+
+    def _make_activity_stage_km_h_plots(self) -> None:
+        self.activity_stage.make_activity_stage_histplot_km_h()
+        self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_stage_histplot_km_h'))
+
     def make_plots(self) -> None:
         self.markdown_plots_list.append('Here you can find your plots\n')
 
         self.make_sleep_plots()
         self.make_activity_plots()
         self.make_sleep_activity_plots()
+
+        self.make_activity_stage_plots()
 
     def make_statistics(self) -> None:
         pass
