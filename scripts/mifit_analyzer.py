@@ -1,4 +1,5 @@
 from activity import ActivityData
+from activity_stage import ActivityStageData
 from report import MifitReport
 from sleep import SleepData
 from sleep_activity import SleepActivityData
@@ -16,6 +17,10 @@ def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 
     activity = ActivityData(start_date=start_date, end_date=end_date, date_format=date_format)
     activity.transform_data_for_analysis()
     activity.write_statistics_to_csv()
+
+    activity_stage = ActivityStageData(start_date=start_date, end_date=end_date, date_format=date_format)
+    activity_stage.transform_data_for_analysis()
+    activity_stage.write_statistics_to_csv()
 
     sleep_activity = SleepActivityData(sleep=sleep, activity=activity)
     sleep_activity.write_statistics_to_csv()

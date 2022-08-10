@@ -72,11 +72,12 @@ class MifitReport:
         records = self.get_total_records()
         interesting_statistics = self.get_interesting_statistics(records)
         self.save_top_step_days()
-        sleep_statistics, activity_statistics, top_step_days = self.get_mifit_statistics()
+        sleep_statistics, activity_statistics, activity_stage_statistics, top_step_days = self.get_mifit_statistics()
 
         markdown_list.extend((interesting_statistics,
                               'MiFit data sleep statistics\n', sleep_statistics,
                               'MiFit data activity statistics\n', activity_statistics,
+                              'MiFit data activity stage statistics\n', activity_stage_statistics,
                               f'MiFit data top {self.number_days} step days\n', top_step_days))
 
         markdown_list.extend(self.markdown_plots_list)
@@ -135,17 +136,20 @@ class MifitReport:
                f'{records.stride_length} meter.\n\n'
         return text
 
-    def get_mifit_statistics(self) -> tuple[str, str, str]:
+    def get_mifit_statistics(self) -> tuple[str, ...]:
         with open(f'{self.statistics_directory}/sleep_statistics.md') as file:
             sleep_statistics = file.read()
 
         with open(f'{self.statistics_directory}/activity_statistics.md') as file:
             activity_statistics = file.read()
 
+        with open(f'{self.statistics_directory}/activity_stage_statistics.md') as file:
+            activity_stage_statistics = file.read()
+
         with open(f'{self.statistics_directory}/top_step_days.md') as file:
             top_step_days = file.read()
 
-        return sleep_statistics, activity_statistics, top_step_days
+        return sleep_statistics, activity_statistics, activity_stage_statistics, top_step_days
 
     def save_top_step_days(self) -> None:
         top_step_days_df = self.mifit_data.data.sort_values(by='steps', ascending=False)[: self.number_days]
@@ -232,9 +236,9 @@ class MifitReport:
         self._make_sleep_deep_hours_boxplots()
         self._make_sleep_shallow_hours_boxplots()
 
-        self.markdown_plots_list.extend(('Here you can find your deep and shallow sleep hours_boxplots\n',
-                                         *self.get_plot_markdown_text('sleep_deep_hours_boxplots')))
-        self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_shallow_hours_boxplots'))
+        # self.markdown_plots_list.extend(('Here you can find your deep and shallow sleep hours_boxplots\n',
+        #                                  *self.get_plot_markdown_text('sleep_deep_hours_boxplots')))
+        # self.markdown_plots_list.extend(self.get_plot_markdown_text('sleep_shallow_hours_boxplots'))
 
     def _make_sleep_deep_hours_boxplots(self) -> None:
         self.mifit_data.make_sleep_deep_hours_per_weekday_boxplot()
