@@ -1,7 +1,7 @@
+from dataclasses import dataclass
 from datetime import datetime
 import glob
 from pathlib import Path
-from typing import NamedTuple
 import subprocess
 
 import pandas as pd
@@ -11,7 +11,8 @@ from activity_stage import ActivityStageData
 from sleep_activity import SleepActivityData
 
 
-class TotalRecords(NamedTuple):
+@dataclass(slots=True, frozen=True)
+class TotalRecords:
     start_date: str
     end_date: str
     available_days_percent: float
