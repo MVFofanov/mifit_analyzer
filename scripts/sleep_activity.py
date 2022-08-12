@@ -32,7 +32,7 @@ class SleepActivityData(SleepData, ActivityData):
         self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
 
     def __repr__(self) -> str:
-        return f'SleepActivityData()'
+        return 'SleepActivityData()'
 
     def make_sleep_activity_correlations_plot(self) -> None:
         sns.set_style('whitegrid')
