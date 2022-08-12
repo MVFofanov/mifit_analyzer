@@ -22,6 +22,9 @@ class ActivityStageData(BaseMifitData):
         self.date_min: datetime = self.data.date.min()
         self.date_max: datetime = self.data.date.max()
 
+        self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
+        self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
+
         if start_date is not None:
             self.start_date: datetime = datetime.strptime(start_date, self.date_format)
         else:
@@ -55,11 +58,19 @@ class ActivityStageData(BaseMifitData):
         self.data['meters_per_second'] = self.data.meters_per_minute / 60
         self.data['kilometers_per_hour'] = self.data.meters_per_second * 3600 / 1000
 
+        self.data['start_hour'] = self.data.start.dt.hour + self.data.start.dt.minute / 60
+        self.data['stop_hour'] = self.data.stop.dt.hour + self.data.stop.dt.minute / 60
+
+        self.data['weekday_name'] = self.data.date.dt.day_name()
+        self.data["weekday_name"] = self.data["weekday_name"].astype('category')
+        self.data["weekday_name"] = self.data["weekday_name"].cat.set_categories(
+            self.day_of_the_week_names)
+
     def make_activity_stage_histplot_km_h(self) -> None:
         sns.set_style('whitegrid')
         plt.figure(figsize=self.plot_figsize)
 
-        sns.histplot(self.data, x='kilometers_per_hour', bins=60)
+        sns.histplot(self.data, x='kilometers_per_hour', bins=30)
 
         plt.xticks(self.speed_km_h_axis_labels)
         plt.title('Kilometers per hour plot', fontsize=self.title_fontsize)
@@ -67,6 +78,38 @@ class ActivityStageData(BaseMifitData):
         plt.ylabel("Count", fontsize=self.label_fontsize)
 
         plt.savefig(Path(self.plots_directory, 'activity_stage_histplot_km_h.png'))
+        plt.close("all")
+
+    def make_activity_stage_start_stop_hour_per_weekday_scatterplot(self) -> None:
+        sns.set_style('whitegrid')
+        plt.figure(figsize=self.plot_figsize)
+
+        sns.scatterplot(data=self.data, x="start_hour", y="stop_hour", hue="weekday_name")
+
+        plt.xticks(self.hour_axis_labels)
+        plt.yticks(self.hour_axis_labels)
+        plt.title('Start and stop time plot', fontsize=self.title_fontsize)
+        plt.xlabel("Start activity stage time", fontsize=self.label_fontsize)
+        plt.ylabel("Stop activity stage time", fontsize=self.label_fontsize)
+        plt.legend(title="Day of the week")
+
+        plt.savefig(Path(self.plots_directory, 'activity_stage_start_stop_hour_per_weekday_scatterplot.png'))
+        plt.close("all")
+
+    def make_activity_stage_start_hour_and_steps_per_weekday_scatterplot(self) -> None:
+        sns.set_style('whitegrid')
+        plt.figure(figsize=self.plot_figsize)
+
+        sns.scatterplot(data=self.data, x="start_hour", y="steps", hue="weekday_name")
+
+        plt.xticks(self.hour_axis_labels)
+        plt.yticks(self.steps_axis_labels)
+        plt.title('Start activity stage time and steps plot', fontsize=self.title_fontsize)
+        plt.xlabel("Start activity stage time", fontsize=self.label_fontsize)
+        plt.ylabel("Steps", fontsize=self.label_fontsize)
+        plt.legend(title="Day of the week")
+
+        plt.savefig(Path(self.plots_directory, 'activity_stage_start_hour_and_steps_per_weekday_scatterplot.png'))
         plt.close("all")
 
     def write_statistics_to_csv(self) -> None:

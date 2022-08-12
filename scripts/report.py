@@ -317,10 +317,20 @@ class MifitReport:
         self.markdown_plots_list.append('Here you can find your activity stage plots\n')
 
         self._make_activity_stage_km_h_plots()
+        self._make_activity_stage_scatterplots()
 
     def _make_activity_stage_km_h_plots(self) -> None:
         self.activity_stage.make_activity_stage_histplot_km_h()
         self.markdown_plots_list.extend(self.get_plot_markdown_text('activity_stage_histplot_km_h'))
+
+    def _make_activity_stage_scatterplots(self) -> None:
+        self.activity_stage.make_activity_stage_start_stop_hour_per_weekday_scatterplot()
+        self.markdown_plots_list.extend(self.get_plot_markdown_text(
+            'activity_stage_start_stop_hour_per_weekday_scatterplot'))
+
+        self.activity_stage.make_activity_stage_start_hour_and_steps_per_weekday_scatterplot()
+        self.markdown_plots_list.extend(self.get_plot_markdown_text(
+            'activity_stage_start_hour_and_steps_per_weekday_scatterplot'))
 
     def make_plots(self) -> None:
         self.markdown_plots_list.append('Here you can find your plots\n')
