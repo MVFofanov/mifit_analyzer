@@ -36,7 +36,7 @@ class ActivityStageData(BaseMifitData):
             self.end_date = self.date_max
 
     def __repr__(self) -> str:
-        return f'ActivityData(start_date={self.start_date}, end_date={self.end_date})'
+        return f'ActivityStageData(start_date={self.start_date}, end_date={self.end_date})'
 
     def transform_data_for_analysis(self) -> None:
         self.transform_time_columns_to_datetime()
