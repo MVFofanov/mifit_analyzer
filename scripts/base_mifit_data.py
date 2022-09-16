@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 
 import pandas as pd
+# from pympler import asizeof
 
 
 def convert_csv_to_markdown(csv_file: str) -> None:
@@ -20,7 +21,7 @@ def read_my_csv_file(path: str) -> pd.DataFrame:
     return data
 
 
-class BaseMifitData(ABC):
+class MiFitDataAbstract(ABC):
     current_directory = './mifit_analyzer'
     plots_directory = './mifit_analyzer/plots/'
     statistics_directory = './mifit_analyzer/statistics/'
@@ -85,3 +86,6 @@ class BaseMifitData(ABC):
         if self.start_date != self.date_min or self.end_date != self.date_max:
             self.data = self.data[(self.data.date >= self.start_date) &
                                   (self.data.date <= self.end_date)]
+
+    # def print_size_of_object(self, obj) -> None:
+    #     return print(f'{str(obj).split("(")[0]} object size is {round(asizeof.asizeof(obj) / 1024 / 1024, 2)} Mb')

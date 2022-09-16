@@ -8,10 +8,10 @@ from sleep_activity import SleepActivityData
 
 
 def print_size_of_object(obj: SleepData | ActivityData | ActivityStageData | SleepActivityData | MifitReport) -> None:
-    return print(f'{str(obj).split("(")[0]} object size is {asizeof.asizeof(obj) / 8 / 1024} Kb')
+    return print(f'{str(obj).split("(")[0]} object size is {round(asizeof.asizeof(obj) / 1024 / 1024, 2)} Mb')
 
 
-def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 'Username',
+def main(hours_difference: int, daily_steps_goal: int = 8000, user_name: str = 'Username',
          start_date: str | None = None, end_date: str | None = None,
          top_step_days_number: int = 10, date_format: str = '%Y.%m.%d') -> None:
 
@@ -20,6 +20,7 @@ def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 
     sleep.transform_data_for_analysis()
     sleep.write_statistics_to_csv()
     print_size_of_object(sleep)
+    print(type(sleep))
 
     activity = ActivityData(start_date=start_date, end_date=end_date, date_format=date_format)
     activity.transform_data_for_analysis()
@@ -44,11 +45,10 @@ def main(hours_difference: int, daily_steps_goal: int = 10000, user_name: str = 
     report.make_plots()
     report.make_report()
     print_size_of_object(report)
+    print(type(report))
 
 
 if __name__ == "__main__":
     main(user_name='Mikhail',
-         hours_difference=7,
-         daily_steps_goal=8000,
-         start_date='1900.07.02',
-         end_date='2077.05.04')
+         hours_difference=7
+         )
