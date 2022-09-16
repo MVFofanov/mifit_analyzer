@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns
 
 from activity import ActivityData
-from base_mifit_data import convert_csv_to_markdown
+from mifit_abstract import convert_csv_to_markdown
 from sleep import SleepData
 
 

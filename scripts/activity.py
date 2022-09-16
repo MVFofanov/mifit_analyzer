@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from base_mifit_data import BaseMifitData, convert_csv_to_markdown
+from mifit_abstract import MiFitDataAbstract, convert_csv_to_markdown
 
 
-class ActivityData(BaseMifitData):
+class ActivityData(MiFitDataAbstract):
     directory_name = 'ACTIVITY'
     statistics_file_name = './mifit_analyzer/statistics/activity_statistics'
 

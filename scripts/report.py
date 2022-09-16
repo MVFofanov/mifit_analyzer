@@ -6,7 +6,7 @@ import subprocess
 
 import pandas as pd
 
-from base_mifit_data import convert_csv_to_markdown
+from mifit_abstract import convert_csv_to_markdown
 from activity_stage import ActivityStageData
 from sleep_activity import SleepActivityData
 

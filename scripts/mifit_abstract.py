@@ -5,7 +5,6 @@ from pathlib import Path
 import subprocess
 
 import pandas as pd
-# from pympler import asizeof
 
 
 def convert_csv_to_markdown(csv_file: str) -> None:

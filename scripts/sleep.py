@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from base_mifit_data import BaseMifitData, convert_csv_to_markdown
+from mifit_abstract import MiFitDataAbstract, convert_csv_to_markdown
 
 
-class SleepData(BaseMifitData):
+class SleepData(MiFitDataAbstract):
     directory_name = 'SLEEP'
     statistics_file_name = './mifit_analyzer/statistics/sleep_statistics'
 
