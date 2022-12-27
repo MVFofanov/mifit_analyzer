@@ -49,6 +49,8 @@ def main(hours_difference: int, daily_steps_goal: int = 8000, user_name: str = '
 
 
 if __name__ == "__main__":
-    main(user_name='Mikhail',
+    main(user_name='User_name',
+         start_date='2019.03.15',
+         end_date='2023.06.13',
          hours_difference=7
          )
