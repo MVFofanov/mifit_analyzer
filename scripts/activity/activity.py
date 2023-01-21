@@ -1,33 +1,14 @@
-from datetime import datetime
-
-import pandas as pd
-
 from abstract_classes.mifit_abstract import MiFitDataAbstract, convert_csv_to_markdown
 
 
 class ActivityData(MiFitDataAbstract):
-    directory_name = 'ACTIVITY'
-    statistics_file_name = './mifit_analyzer/statistics/activity_statistics'
 
-    def __init__(self, start_date: str | None, end_date: str | None, date_format: str) -> None:
-        self.date_format = date_format
+    def __init__(self, start_date: str | None = None, end_date: str | None = None, date_format: str = '%Y.%m.%d',
+                 path_to_data_directory: str = '/mnt/c/mifit_data/ACTIVITY',
+                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/statistics/activity_statistics') -> None:
 
-        self.is_prepared = False
-
-        self.data: pd.DataFrame = self.read_all_csv_files()
-
-        self.date_min: datetime = self.data.date.min()
-        self.date_max: datetime = self.data.date.max()
-
-        if start_date is not None:
-            self.start_date: datetime = datetime.strptime(start_date, self.date_format)
-        else:
-            self.start_date = self.date_min
-
-        if end_date is not None:
-            self.end_date: datetime = datetime.strptime(end_date, self.date_format)
-        else:
-            self.end_date = self.date_max
+        super().__init__(start_date, end_date, date_format,
+                         path_to_data_directory, statistics_file_name)
 
     def __repr__(self) -> str:
         return f'ActivityData(start_date={self.start_date}, end_date={self.end_date})'
@@ -41,7 +22,7 @@ class ActivityData(MiFitDataAbstract):
         self.is_prepared = True
 
     def transform_time_columns_to_datetime(self) -> None:
-        self.data['date'] = pd.to_datetime(self.data['date'], unit='s')
+        super().transform_time_columns_to_datetime()
 
     def add_new_columns(self) -> None:
         self.get_days_and_month_from_date()

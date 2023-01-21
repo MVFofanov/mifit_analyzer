@@ -1,38 +1,17 @@
-from datetime import datetime
-
 import pandas as pd
 
 from abstract_classes.mifit_abstract import MiFitDataAbstract, convert_csv_to_markdown
 
 
 class ActivityStageData(MiFitDataAbstract):
-    directory_name = 'ACTIVITY_STAGE'
-    statistics_file_name = './mifit_analyzer/statistics/activity_stage_statistics'
 
-    def __init__(self, start_date: str | None, end_date: str | None, date_format: str) -> None:
-        self.is_prepared = False
+    def __init__(self, start_date: str | None = None, end_date: str | None = None, date_format: str = '%Y.%m.%d',
+                 path_to_data_directory: str = '/mnt/c/mifit_data/ACTIVITY_STAGE',
+                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/statistics/activity_stage_statistics')\
+            -> None:
 
-        self.date_format = date_format
-
-        self.data: pd.DataFrame = self.read_all_csv_files()
-
-        self.speed_km_h_axis_labels: list | None = None
-
-        self.date_min: datetime = self.data.date.min()
-        self.date_max: datetime = self.data.date.max()
-
-        self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
-        self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
-
-        if start_date is not None:
-            self.start_date: datetime = datetime.strptime(start_date, self.date_format)
-        else:
-            self.start_date = self.date_min
-
-        if end_date is not None:
-            self.end_date: datetime = datetime.strptime(end_date, self.date_format)
-        else:
-            self.end_date = self.date_max
+        super().__init__(start_date, end_date, date_format,
+                         path_to_data_directory, statistics_file_name)
 
     def __repr__(self) -> str:
         return f'ActivityStageData(start_date={self.start_date}, end_date={self.end_date})'
@@ -42,8 +21,6 @@ class ActivityStageData(MiFitDataAbstract):
         self.add_new_columns()
         self.select_date_range()
         self.create_service_directories()
-
-        self.speed_km_h_axis_labels = [i for i in range(0, int(self.data.kilometers_per_hour.max()))]
 
         self.is_prepared = True
 

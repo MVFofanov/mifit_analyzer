@@ -17,8 +17,8 @@ def main(hours_difference: int, daily_steps_goal: int = 8000, user_name: str = '
          start_date: str | None = None, end_date: str | None = None,
          top_step_days_number: int = 10, date_format: str = '%Y.%m.%d') -> None:
 
-    sleep = SleepData(start_date=start_date, end_date=end_date, hours_difference=hours_difference,
-                      date_format=date_format)
+    sleep = SleepData(start_date=start_date, end_date=end_date,
+                      date_format=date_format, hours_difference=hours_difference)
     sleep.transform_data_for_analysis()
     sleep.write_statistics_to_csv()
     print_size_of_object(sleep)

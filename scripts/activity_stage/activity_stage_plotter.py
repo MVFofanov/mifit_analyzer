@@ -13,6 +13,8 @@ class ActivityStagePlotter(ActivityPlotterAbstract):
 
         super().__init__(data)
 
+        self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
+        self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
         self.speed_km_h_axis_labels = [i for i in range(0, int(self.data.kilometers_per_hour.max()))]
 
     def make_activity_stage_histplot_km_h(self) -> None:

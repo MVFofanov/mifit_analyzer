@@ -28,6 +28,8 @@ class SleepPlotter(PlotterAbstract):
             sns.boxplot(y=k, data=sleep_hours, ax=axs[index])
             index += 1
         plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
+
+        plt.savefig(Path(self.plots_directory, 'sleep_hours_boxplot.png'))
         plt.close("all")
 
     def make_sleep_hours_correlations_plot(self) -> None:
