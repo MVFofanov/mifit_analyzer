@@ -6,25 +6,11 @@ import subprocess
 
 import pandas as pd
 
-from abstract_classes.mifit_abstract import convert_csv_to_markdown
-from abstract_classes.mifit_data import MiFitData
-from abstract_classes.report_plotter_abstract import markdown_text
-
-from activity.activity import ActivityData
-from activity.activity_plotter import ActivityPlotter
-from activity.activity_report_plotter import ActivityReportPlotter
-
-from activity_stage.activity_stage import ActivityStageData
-from activity_stage.activity_stage_plotter import ActivityStagePlotter
-from activity_stage.activity_stage_report_plotter import ActivityStageReportPlotter
-
-from sleep_activity.sleep_activity import SleepActivityData
-from sleep_activity.sleep_activity_plotter import SleepActivityPlotter
-from sleep_activity.sleep_activity_report_plotter import SleepActivityReportPlotter
-
-from sleep.sleep import SleepData
-from sleep.sleep_plotter import SleepPlotter
-from sleep.sleep_report_plotter import SleepReportPlotter
+from abstract_classes import MiFitData, convert_csv_to_markdown, markdown_text
+from activity import ActivityData, ActivityPlotter, ActivityReportPlotter
+from activity_stage import ActivityStageData, ActivityStagePlotter, ActivityStageReportPlotter
+from sleep import SleepData, SleepPlotter, SleepReportPlotter
+from sleep_activity import SleepActivityData, SleepActivityPlotter, SleepActivityReportPlotter
 
 
 @dataclass(slots=True, frozen=True)
