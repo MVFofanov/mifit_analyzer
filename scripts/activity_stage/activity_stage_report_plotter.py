@@ -12,6 +12,7 @@ class ActivityStageReportPlotter(ReportPlotterAbstract):
         self.markdown_plots_list.append('Here you can find your activity stage plots\n')
 
         self._make_activity_stage_km_h_plots()
+
         self._make_activity_stage_scatterplots()
 
     def _make_activity_stage_km_h_plots(self) -> None:

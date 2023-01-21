@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from pympler import asizeof
 
 from abstract_classes.plotter_abstract import PlotterAbstract
 
@@ -22,3 +23,7 @@ class ReportPlotterAbstract(ABC):
     @abstractmethod
     def make_plots(self) -> None:
         pass
+
+    def get_size(self) -> str:
+        size_in_mb = asizeof.asizeof(self) / 1024 / 1024
+        return f'{str(self).split("(")[0]} object size is {size_in_mb:.2f} Mb'

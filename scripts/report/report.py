@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime
 import glob
+import logging
 from pathlib import Path
+from pympler import asizeof
 import subprocess
 
 import pandas as pd
@@ -80,7 +82,13 @@ class MifitReport:
                          f'---']
 
         records = self.get_total_records()
+
+        logging.info('Records have been calculated')
+
         interesting_statistics = self.get_interesting_statistics(records)
+
+        logging.info('Interesting_statistics have been calculated')
+
         self.save_top_step_days()
         sleep_statistics, activity_statistics, activity_stage_statistics, top_step_days = self.get_mifit_statistics()
 
@@ -93,7 +101,12 @@ class MifitReport:
         markdown_list.extend(self.markdown_plots_list)
 
         self.save_report(markdown_list)
+
+        logging.info('Report has been saved as .md file')
+
         self.convert_report_to_html()
+
+        logging.info('Report has been saved as .html file')
 
     def get_all_plots_for_markdown_report(self) -> list[str]:
         all_png_files = glob.glob(f'{self.plots_directory}/*.png')
@@ -185,24 +198,71 @@ class MifitReport:
         self.markdown_plots_list.append('Here you can find your plots\n')
 
         sleep_plotter = SleepPlotter(self.sleep.data)
+
+        logging.info(f"sleep_plotter object have been generated."
+                     f"{sleep_plotter.get_size()}")
+
         sleep_report_plotter = SleepReportPlotter(plotter=sleep_plotter,
                                                   markdown_plots_list=self.markdown_plots_list)
+
+        logging.info(f"sleep_report_plotter object have been generated."
+                     f"{sleep_report_plotter.get_size()}")
+
         sleep_report_plotter.make_plots()
 
+        logging.info('Sleep plots have been successfully built')
+
         activity_plotter = ActivityPlotter(self.activity.data)
+
+        logging.info(f"activity_plotter object have been generated."
+                     f"{activity_plotter.get_size()}")
+
         activity_report_plotter = ActivityReportPlotter(plotter=activity_plotter,
                                                         markdown_plots_list=self.markdown_plots_list)
+
+        logging.info(f"activity_report_plotter object have been generated."
+                     f"{activity_report_plotter.get_size()}")
+
         activity_report_plotter.make_plots()
 
+        logging.info('Activity plots have been successfully built')
+
         sleep_activity_plotter = SleepActivityPlotter(self.sleep_activity.data)
+
+        logging.info(f"Sleep_activity_plotter object have been generated. "
+                     f"{sleep_activity_plotter.get_size()}")
+
         sleep_activity_report_plotter = SleepActivityReportPlotter(plotter=sleep_activity_plotter,
                                                                    markdown_plots_list=self.markdown_plots_list)
+
+        logging.info(f"sleep_activity_report_plotter object have been generated."
+                     f"{sleep_activity_report_plotter.get_size()}")
+
+        logging.info(f"sleep_activity_report_plotter object have been generated."
+                     f"{sleep_activity_report_plotter.get_size()}")
+
         sleep_activity_report_plotter.make_plots()
 
+        logging.info('Sleep_activity plots have been successfully built')
+
         activity_stage_plotter = ActivityStagePlotter(self.activity_stage.data)
+
+        logging.info(f"activity_stage_plotter object have been generated."
+                     f"{activity_stage_plotter.get_size()}")
+
         activity_stage_report_plotter = ActivityStageReportPlotter(plotter=activity_stage_plotter,
                                                                    markdown_plots_list=self.markdown_plots_list)
+
+        logging.info(f"activity_stage_report_plotter object have been generated."
+                     f"{activity_stage_report_plotter.get_size()}")
+
         activity_stage_report_plotter.make_plots()
+
+        logging.info('Activity_stage plots have been successfully built')
 
     def make_statistics(self) -> None:
         pass
+
+    def get_size(self) -> str:
+        size_in_mb = asizeof.asizeof(self) / 1024 / 1024
+        return f'{str(self).split("(")[0]} object size is {size_in_mb:.2f} Mb'

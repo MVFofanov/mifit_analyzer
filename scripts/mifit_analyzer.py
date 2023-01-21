@@ -1,4 +1,7 @@
+import logging
+from pathlib import Path
 from pympler import asizeof
+from time import perf_counter
 from typing import Any
 
 from abstract_classes.mifit_data import MiFitData
@@ -9,34 +12,50 @@ from sleep.sleep import SleepData
 from sleep_activity.sleep_activity import SleepActivityData
 
 
-def print_size_of_object(obj: Any) -> None:
-    return print(f'{str(obj).split("(")[0]} object size is {round(asizeof.asizeof(obj) / 1024 / 1024, 2)} Mb')
+# def print_size_of_object(obj: Any) -> str:
+#     return f'{str(obj).split("(")[0]} object size is {round(asizeof.asizeof(obj) / 1024 / 1024, 2)} Mb'
 
 
 def main(hours_difference: int, daily_steps_goal: int = 8000, user_name: str = 'Username',
          start_date: str | None = None, end_date: str | None = None,
          top_step_days_number: int = 10, date_format: str = '%Y.%m.%d') -> None:
+    start_time = perf_counter()
+
+    log_directory = '/mnt/c/mifit_data/mifit_analyzer/logs'
+    log_file_name = f'{log_directory}/logs.log'
+    log_format = '%(levelname)s\t%(asctime)s\t%(module)s\t%(funcName)s\t%(message)s'
+    lof_level = logging.INFO
+
+    Path(log_directory).mkdir(parents=True, exist_ok=True)
+
+    logging.basicConfig(filename=log_file_name, filemode='w', format=log_format,
+                        level=lof_level, encoding='utf-8')
+
+    logging.info('Mifit_analyzer has started its work')
 
     sleep = SleepData(start_date=start_date, end_date=end_date,
                       date_format=date_format, hours_difference=hours_difference)
     sleep.transform_data_for_analysis()
     sleep.write_statistics_to_csv()
-    print_size_of_object(sleep)
-    # print(type(sleep))
+
+    logging.info(f"Sleep object have been analyzed. {sleep.get_size()}")
 
     activity = ActivityData(start_date=start_date, end_date=end_date, date_format=date_format)
     activity.transform_data_for_analysis()
     activity.write_statistics_to_csv()
-    print_size_of_object(activity)
+
+    logging.info(f"Activity object have been analyzed. {activity.get_size()}")
 
     activity_stage = ActivityStageData(start_date=start_date, end_date=end_date, date_format=date_format)
     activity_stage.transform_data_for_analysis()
     activity_stage.write_statistics_to_csv()
-    print_size_of_object(activity_stage)
+
+    logging.info(f"Activity_stage object have been analyzed. {activity_stage.get_size()}")
 
     sleep_activity = SleepActivityData(sleep=sleep, activity=activity)
     sleep_activity.write_statistics_to_csv()
-    print_size_of_object(sleep_activity)
+
+    logging.info(f"Sleep_activity object have been analyzed. {sleep_activity.get_size()}")
 
     mifit_data = MiFitData(sleep=sleep, activity=activity, sleep_activity=sleep_activity,
                            activity_stage=activity_stage)
@@ -46,10 +65,23 @@ def main(hours_difference: int, daily_steps_goal: int = 8000, user_name: str = '
                          daily_steps_goal=daily_steps_goal,
                          top_step_days_number=top_step_days_number,
                          date_format=date_format)
+
+    logging.info(f"Report object have been analyzed. {report.get_size()}")
+
     report.make_plots()
+
+    logging.info(f"Report plots were built")
+
     report.make_report()
-    print_size_of_object(report)
-    # print(type(report))
+
+    logging.info(f"Report has been successfully generated")
+
+    logging.info(f"Mifit_analyzer has finished its work")
+
+    end_time = perf_counter()
+    elapsed_time = end_time - start_time
+
+    logging.info(f"Program execution time: {elapsed_time:.2f} seconds")
 
 
 if __name__ == "__main__":

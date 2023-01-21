@@ -10,8 +10,11 @@ class SleepReportPlotter(ReportPlotterAbstract):
 
     def make_plots(self) -> None:
         self._make_sleep_common_plots()
+
         self._make_sleep_hours_boxplots()
+
         self._make_sleep_deep_and_shallow_hours_boxplots()
+
         self._make_sleep_start_and_stop_time_plots()
 
     def _make_sleep_common_plots(self) -> None:

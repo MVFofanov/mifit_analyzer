@@ -10,7 +10,9 @@ class SleepActivityReportPlotter(ReportPlotterAbstract):
 
     def make_plots(self) -> None:
         self.plotter.make_sleep_activity_correlations_plot()
+
         self.plotter.make_sleep_activity_steps_sleep_per_start_weekday_scatterplot()
+
         self.plotter.make_sleep_activity_steps_sleep_per_stop_weekday_scatterplot()
 
         self.markdown_plots_list.extend(('Here you can find your sleep activity plots\n',

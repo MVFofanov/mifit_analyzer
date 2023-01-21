@@ -12,7 +12,9 @@ class ActivityReportPlotter(ReportPlotterAbstract):
         self.markdown_plots_list.append('Here you can find your activity plots\n')
 
         self._make_activity_distance_common_plots()
+
         self._make_activity_distance_boxplots()
+
         self._make_activity_steps_boxplots()
 
     def _make_activity_distance_common_plots(self) -> None:

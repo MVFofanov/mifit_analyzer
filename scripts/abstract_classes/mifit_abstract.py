@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import glob
 from datetime import datetime
 from pathlib import Path
+from pympler import asizeof
 import subprocess
 
 import pandas as pd
@@ -108,3 +109,7 @@ class MiFitDataAbstract(ABC):
         if self.start_date != self.date_min or self.end_date != self.date_max:
             self.data = self.data[(self.data.date >= self.start_date) &
                                   (self.data.date <= self.end_date)]
+
+    def get_size(self) -> str:
+        size_in_mb = asizeof.asizeof(self) / 1024 / 1024
+        return f'{str(self).split("(")[0]} object size is {size_in_mb:.2f} Mb'
