@@ -200,22 +200,22 @@ class MifitReport:
         sleep_plotter = SleepPlotter(self.sleep.data)
         sleep_report_plotter = SleepReportPlotter(plotter=sleep_plotter,
                                                   markdown_plots_list=self.markdown_plots_list)
-        sleep_report_plotter.make_sleep_plots()
+        sleep_report_plotter.make_plots()
 
         activity_plotter = ActivityPlotter(self.activity.data)
         activity_report_plotter = ActivityReportPlotter(plotter=activity_plotter,
                                                         markdown_plots_list=self.markdown_plots_list)
-        activity_report_plotter.make_activity_plots()
+        activity_report_plotter.make_plots()
 
         sleep_activity_plotter = SleepActivityPlotter(self.sleep_activity.data)
         sleep_activity_report_plotter = SleepActivityReportPlotter(plotter=sleep_activity_plotter,
                                                                    markdown_plots_list=self.markdown_plots_list)
-        sleep_activity_report_plotter.make_sleep_activity_plots()
+        sleep_activity_report_plotter.make_plots()
 
         activity_stage_plotter = ActivityStagePlotter(self.activity_stage.data)
         activity_stage_report_plotter = ActivityStageReportPlotter(plotter=activity_stage_plotter,
                                                                    markdown_plots_list=self.markdown_plots_list)
-        activity_stage_report_plotter.make_activity_stage_plots()
+        activity_stage_report_plotter.make_plots()
 
     def make_statistics(self) -> None:
         pass

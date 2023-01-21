@@ -1,20 +1,12 @@
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 
+from abstract_classes.plotter_abstract import PlotterAbstract
 
-class SleepPlotter:
-    plots_directory = './mifit_analyzer/plots/'
 
-    hour_axis_labels = [i for i in range(0, 25, 2)]
-    title_fontsize = 20
-    label_fontsize = 16
-    plot_figsize = (12, 8)
-
-    def __init__(self, data: pd.DataFrame):
-        self.data = data
+class SleepPlotter(PlotterAbstract):
 
     def make_sleep_hours_pairplot(self) -> None:
         sleep_hours = self.data[['deepSleepTime_hours', 'shallowSleepTime_hours', 'totalSleepTime_hours']]

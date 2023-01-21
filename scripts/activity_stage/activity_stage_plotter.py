@@ -4,21 +4,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
+from abstract_classes.plotter_abstract import ActivityPlotterAbstract
 
-class ActivityStagePlotter:
-    plots_directory = './mifit_analyzer/plots/'
 
-    hour_axis_labels = [i for i in range(0, 25, 2)]
-    title_fontsize = 20
-    label_fontsize = 16
-    plot_figsize = (12, 8)
+class ActivityStagePlotter(ActivityPlotterAbstract):
 
     def __init__(self, data: pd.DataFrame):
 
-        self.data = data
-
-        self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
-        self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
+        super().__init__(data)
 
         self.speed_km_h_axis_labels = [i for i in range(0, int(self.data.kilometers_per_hour.max()))]
 
