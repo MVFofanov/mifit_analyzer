@@ -8,9 +8,10 @@ import subprocess
 
 import pandas as pd
 
-from abstract_classes import MiFitData, convert_csv_to_markdown, markdown_text
+from abstract_classes import convert_csv_to_markdown, markdown_text
 from activity import ActivityData, ActivityPlotter, ActivityReportPlotter
 from activity_stage import ActivityStageData, ActivityStagePlotter, ActivityStageReportPlotter
+from mifit_dataclasses import MiFitData
 from sleep import SleepData, SleepPlotter, SleepReportPlotter
 from sleep_activity import SleepActivityData, SleepActivityPlotter, SleepActivityReportPlotter
 

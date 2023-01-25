@@ -1,10 +1,8 @@
 import logging
 from pathlib import Path
-from pympler import asizeof
 from time import perf_counter
-from typing import Any
 
-from abstract_classes.mifit_data import MiFitData
+from mifit_dataclasses.mifit_data import MiFitData
 from activity.activity import ActivityData
 from activity_stage.activity_stage import ActivityStageData
 from report.report import MifitReport
@@ -12,23 +10,20 @@ from sleep.sleep import SleepData
 from sleep_activity.sleep_activity import SleepActivityData
 
 
-# def print_size_of_object(obj: Any) -> str:
-#     return f'{str(obj).split("(")[0]} object size is {round(asizeof.asizeof(obj) / 1024 / 1024, 2)} Mb'
-
-
-def main(hours_difference: int, daily_steps_goal: int = 8000, user_name: str = 'Username',
+def main(hours_difference: int = 0, daily_steps_goal: int = 8000, user_name: str = 'Username',
          start_date: str | None = None, end_date: str | None = None,
-         top_step_days_number: int = 10, date_format: str = '%Y.%m.%d') -> None:
+         top_step_days_number: int = 10, date_format: str = '%Y.%m.%d',
+         output_directory: str = '/mnt/c/mifit_data/mifit_analyzer', log_mode: str = 'w') -> None:
     start_time = perf_counter()
 
-    log_directory = '/mnt/c/mifit_data/mifit_analyzer/logs'
+    log_directory = f'{output_directory}/logs'
     log_file_name = f'{log_directory}/logs.log'
     log_format = '%(levelname)s\t%(asctime)s\t%(module)s\t%(funcName)s\t%(message)s'
     lof_level = logging.INFO
 
     Path(log_directory).mkdir(parents=True, exist_ok=True)
 
-    logging.basicConfig(filename=log_file_name, filemode='w', format=log_format,
+    logging.basicConfig(filename=log_file_name, filemode=log_mode, format=log_format,
                         level=lof_level, encoding='utf-8')
 
     logging.info('Mifit_analyzer has started its work')
