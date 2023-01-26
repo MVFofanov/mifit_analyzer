@@ -28,4 +28,3 @@ class ActivityPlotterAbstract(PlotterAbstract):
 
         self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
         self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
-

@@ -66,13 +66,13 @@ def main(hours_difference: int = 0, daily_steps_goal: int = 8000, user_name: str
 
     report.make_plots()
 
-    logging.info(f"Report plots were built")
+    logging.info("Report plots were built")
 
     report.make_report()
 
-    logging.info(f"Report has been successfully generated")
+    logging.info("Report has been successfully generated")
 
-    logging.info(f"Mifit_analyzer has finished its work")
+    logging.info("Mifit_analyzer has finished its work")
 
     end_time = perf_counter()
     elapsed_time = end_time - start_time
