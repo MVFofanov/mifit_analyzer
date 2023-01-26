@@ -10,11 +10,12 @@ class SleepData(MiFitDataAbstract):
     def __init__(self, start_date: str | None = None, end_date: str | None = None,
                  date_format: str = '%Y.%m.%d',
                  path_to_data_directory: str = '/mnt/c/mifit_data/SLEEP',
-                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/results/statistics/sleep_statistics',
+                 results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results',
                  hours_difference: int = 0) -> None:
 
-        super().__init__(start_date, end_date, date_format, path_to_data_directory, statistics_file_name,
+        super().__init__(start_date, end_date, date_format, path_to_data_directory, results_directory,
                          hours_difference)
+        self.statistics_file_name = f'{self.statistics_directory}/sleep_statistics'
 
     def __repr__(self) -> str:
         return f'SleepData(start_date={self.start_date}, end_date={self.end_date}, ' \

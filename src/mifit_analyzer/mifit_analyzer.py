@@ -30,25 +30,28 @@ def main(hours_difference: int = 0, daily_steps_goal: int = 8000, user_name: str
     logging.info('Mifit_analyzer has started its work')
 
     sleep = SleepData(start_date=start_date, end_date=end_date,
-                      date_format=date_format, hours_difference=hours_difference)
+                      date_format=date_format, hours_difference=hours_difference,
+                      results_directory=output_directory)
     sleep.transform_data_for_analysis()
     sleep.write_statistics_to_csv()
 
     logging.info(f"Sleep object have been analyzed. {sleep.get_size()}")
 
-    activity = ActivityData(start_date=start_date, end_date=end_date, date_format=date_format)
+    activity = ActivityData(start_date=start_date, end_date=end_date, date_format=date_format,
+                            results_directory=output_directory)
     activity.transform_data_for_analysis()
     activity.write_statistics_to_csv()
 
     logging.info(f"Activity object have been analyzed. {activity.get_size()}")
 
-    activity_stage = ActivityStageData(start_date=start_date, end_date=end_date, date_format=date_format)
+    activity_stage = ActivityStageData(start_date=start_date, end_date=end_date, date_format=date_format,
+                                       results_directory=output_directory)
     activity_stage.transform_data_for_analysis()
     activity_stage.write_statistics_to_csv()
 
     logging.info(f"Activity_stage object have been analyzed. {activity_stage.get_size()}")
 
-    sleep_activity = SleepActivityData(sleep=sleep, activity=activity)
+    sleep_activity = SleepActivityData(sleep=sleep, activity=activity, results_directory=output_directory)
     sleep_activity.write_statistics_to_csv()
 
     logging.info(f"Sleep_activity object have been analyzed. {sleep_activity.get_size()}")
@@ -60,7 +63,8 @@ def main(hours_difference: int = 0, daily_steps_goal: int = 8000, user_name: str
                          user_name=user_name,
                          daily_steps_goal=daily_steps_goal,
                          top_step_days_number=top_step_days_number,
-                         date_format=date_format)
+                         date_format=date_format,
+                         results_directory=output_directory)
 
     logging.info(f"Report object have been analyzed. {report.get_size()}")
 
@@ -84,5 +88,6 @@ if __name__ == "__main__":
     main(user_name='User_name',
          start_date='2019.03.15',
          end_date='2023.06.13',
-         hours_difference=7
+         hours_difference=7,
+         output_directory='/mnt/c/mifit_data/mifit_analyzer/super_results'
          )

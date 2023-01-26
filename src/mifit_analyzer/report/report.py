@@ -33,16 +33,23 @@ class TotalRecords:
 
 class MifitReport:
     current_directory = '/mnt/c/mifit_data/mifit_analyzer'
-    results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
-    plots_directory = f'{results_directory}/plots/'
-    statistics_directory = f'{results_directory}/statistics/'
-    report_directory = f'{results_directory}/report'
+    # results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
+    # plots_directory = f'{results_directory}/plots/'
+    # statistics_directory = f'{results_directory}/statistics/'
+    # report_directory = f'{results_directory}/report'
 
-    top_step_days_file_name = f'{statistics_directory}/top_step_days'
+    # top_step_days_file_name = f'{statistics_directory}/top_step_days'
 
     def __init__(self, mifit_data: MiFitData,
                  user_name: str, daily_steps_goal: int,
-                 top_step_days_number: int, date_format: str) -> None:
+                 top_step_days_number: int, date_format: str,
+                 results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results') -> None:
+        self.results_directory = results_directory
+        self.plots_directory = f'{results_directory}/plots/'
+        self.statistics_directory = f'{results_directory}/statistics'
+        self.report_directory = f'{results_directory}/report'
+        self.top_step_days_file_name = f'{self.statistics_directory}/top_step_days'
+
         self.date_format = date_format
 
         self.mifit_data: MiFitData = mifit_data
@@ -199,7 +206,7 @@ class MifitReport:
     def make_plots(self) -> None:
         self.markdown_plots_list.append('Here you can find your plots\n')
 
-        sleep_plotter = SleepPlotter(self.sleep.data)
+        sleep_plotter = SleepPlotter(self.sleep.data, results_directory=self.results_directory)
 
         logging.info(f"sleep_plotter object have been generated."
                      f"{sleep_plotter.get_size()}")
@@ -214,7 +221,7 @@ class MifitReport:
 
         logging.info('Sleep plots have been successfully built')
 
-        activity_plotter = ActivityPlotter(self.activity.data)
+        activity_plotter = ActivityPlotter(self.activity.data, results_directory=self.results_directory)
 
         logging.info(f"activity_plotter object have been generated."
                      f"{activity_plotter.get_size()}")
@@ -229,7 +236,8 @@ class MifitReport:
 
         logging.info('Activity plots have been successfully built')
 
-        sleep_activity_plotter = SleepActivityPlotter(self.sleep_activity.data)
+        sleep_activity_plotter = SleepActivityPlotter(self.sleep_activity.data,
+                                                      results_directory=self.results_directory)
 
         logging.info(f"Sleep_activity_plotter object have been generated. "
                      f"{sleep_activity_plotter.get_size()}")
@@ -247,7 +255,8 @@ class MifitReport:
 
         logging.info('Sleep_activity plots have been successfully built')
 
-        activity_stage_plotter = ActivityStagePlotter(self.activity_stage.data)
+        activity_stage_plotter = ActivityStagePlotter(self.activity_stage.data,
+                                                      results_directory=self.results_directory)
 
         logging.info(f"activity_stage_plotter object have been generated."
                      f"{activity_stage_plotter.get_size()}")

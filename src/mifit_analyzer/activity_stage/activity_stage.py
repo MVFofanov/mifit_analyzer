@@ -7,12 +7,11 @@ class ActivityStageData(MiFitDataAbstract):
 
     def __init__(self, start_date: str | None = None, end_date: str | None = None, date_format: str = '%Y.%m.%d',
                  path_to_data_directory: str = '/mnt/c/mifit_data/ACTIVITY_STAGE',
-                 statistics_file_name: str =
-                 '/mnt/c/mifit_data/mifit_analyzer/results/statistics/activity_stage_statistics')\
-            -> None:
+                 results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results') -> None:
 
         super().__init__(start_date, end_date, date_format,
-                         path_to_data_directory, statistics_file_name)
+                         path_to_data_directory, results_directory)
+        self.statistics_file_name = f'{self.statistics_directory}/activity_stage_statistics'
 
     def __repr__(self) -> str:
         return f'ActivityStageData(start_date={self.start_date}, end_date={self.end_date})'

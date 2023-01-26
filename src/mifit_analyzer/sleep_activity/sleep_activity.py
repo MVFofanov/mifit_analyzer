@@ -8,10 +8,12 @@ from sleep.sleep import SleepData
 class SleepActivityData(SleepData, ActivityData):
 
     def __init__(self, sleep: SleepData, activity: ActivityData,
-                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/results/statistics/sleep_activity_statistics')\
-            -> None:
+                 results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results') -> None:
+        self.results_directory = results_directory.removesuffix('/')
+        self.plots_directory = f'{results_directory}/plots/'
+        self.statistics_directory = f'{results_directory}/statistics'
 
-        self.statistics_file_name = statistics_file_name
+        self.statistics_file_name = f'{self.statistics_directory}/sleep_activity_statistics'
         self.sleep_for_merge: pd.DataFramee = \
             sleep.data[['date', 'deepSleepTime_hours',
                         'shallowSleepTime_hours', 'totalSleepTime_hours', 'start_weekday_real',

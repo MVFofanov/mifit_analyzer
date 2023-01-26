@@ -23,9 +23,9 @@ def read_my_csv_file(path: str) -> pd.DataFrame:
 
 class MiFitDataAbstract(ABC):
     current_directory = '/mnt/c/mifit_data/mifit_analyzer'
-    results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
-    plots_directory = f'{results_directory}/plots/'
-    statistics_directory = f'{results_directory}/statistics/'
+    # results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
+    # plots_directory = f'{results_directory}/plots/'
+    # statistics_directory = f'{results_directory}/statistics/'
 
     day_of_the_week_names = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
@@ -35,12 +35,15 @@ class MiFitDataAbstract(ABC):
     def __init__(self, start_date: str | None = None, end_date: str | None = None,
                  date_format: str = '%Y.%m.%d',
                  path_to_data_directory: str = '/mnt/c/mifit_data/DATA_DIRECTORY_ABSTRACT',
-                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/statistics/statistics_file_abstract',
+                 results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results',
                  hours_difference: int = 0
                  ) -> None:
+        self.results_directory = results_directory.removesuffix('/')
+        self.plots_directory = f'{results_directory}/plots/'
+        self.statistics_directory = f'{results_directory}/statistics'
 
         self.path_to_data_directory = path_to_data_directory.removesuffix('/')
-        self.statistics_file_name = statistics_file_name
+        self.statistics_file_name = f'{self.statistics_directory}/abstract_statistics'
 
         self.start_date = start_date
         self.end_date = end_date

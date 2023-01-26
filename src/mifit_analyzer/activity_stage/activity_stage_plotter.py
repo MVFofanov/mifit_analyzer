@@ -9,9 +9,9 @@ from abstract_classes.plotter_abstract import ActivityPlotterAbstract
 
 class ActivityStagePlotter(ActivityPlotterAbstract):
 
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame, results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results'):
 
-        super().__init__(data)
+        super().__init__(data, results_directory)
 
         self.steps_axis_labels = [i for i in range(0, self.data.steps.max(), 2000)]
         self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
