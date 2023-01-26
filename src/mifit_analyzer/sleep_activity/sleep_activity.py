@@ -8,7 +8,7 @@ from sleep.sleep import SleepData
 class SleepActivityData(SleepData, ActivityData):
 
     def __init__(self, sleep: SleepData, activity: ActivityData,
-                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/statistics/sleep_activity_statistics')\
+                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/results/statistics/sleep_activity_statistics')\
             -> None:
 
         self.statistics_file_name = statistics_file_name

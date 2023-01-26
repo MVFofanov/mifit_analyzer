@@ -5,7 +5,7 @@ class ActivityData(MiFitDataAbstract):
 
     def __init__(self, start_date: str | None = None, end_date: str | None = None, date_format: str = '%Y.%m.%d',
                  path_to_data_directory: str = '/mnt/c/mifit_data/ACTIVITY',
-                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/statistics/activity_statistics') -> None:
+                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/results/statistics/activity_statistics') -> None:
 
         super().__init__(start_date, end_date, date_format,
                          path_to_data_directory, statistics_file_name)

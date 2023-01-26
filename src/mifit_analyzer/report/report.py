@@ -33,9 +33,10 @@ class TotalRecords:
 
 class MifitReport:
     current_directory = '/mnt/c/mifit_data/mifit_analyzer'
-    plots_directory = '/mnt/c/mifit_data/mifit_analyzer/plots'
-    report_directory = '/mnt/c/mifit_data/mifit_analyzer/report'
-    statistics_directory = '/mnt/c/mifit_data/mifit_analyzer/statistics'
+    results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
+    plots_directory = f'{results_directory}/plots/'
+    statistics_directory = f'{results_directory}/statistics/'
+    report_directory = f'{results_directory}/report'
 
     top_step_days_file_name = f'{statistics_directory}/top_step_days'
 
@@ -190,7 +191,7 @@ class MifitReport:
         convert_csv_to_markdown(csv_file=self.top_step_days_file_name)
 
     def convert_report_to_html(self) -> None:
-        arg_list = ['pandoc', '--embed-resources', '--standalone', '-s', f'{self.report_directory}/report.md', '-o',
+        arg_list = ['pandoc', '--self-contained', '-s', f'{self.report_directory}/report.md', '-o',
                     f'{self.report_directory}/report.html']
         stream = subprocess.Popen(arg_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
         out, err = stream.communicate()

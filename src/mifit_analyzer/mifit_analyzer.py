@@ -13,7 +13,7 @@ from sleep_activity.sleep_activity import SleepActivityData
 def main(hours_difference: int = 0, daily_steps_goal: int = 8000, user_name: str = 'Username',
          start_date: str | None = None, end_date: str | None = None,
          top_step_days_number: int = 10, date_format: str = '%Y.%m.%d',
-         output_directory: str = '/mnt/c/mifit_data/mifit_analyzer', log_mode: str = 'w') -> None:
+         output_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results', log_mode: str = 'w') -> None:
     start_time = perf_counter()
 
     log_directory = f'{output_directory}/logs'
@@ -21,6 +21,7 @@ def main(hours_difference: int = 0, daily_steps_goal: int = 8000, user_name: str
     log_format = '%(levelname)s\t%(asctime)s\t%(module)s\t%(funcName)s\t%(message)s'
     lof_level = logging.INFO
 
+    Path(output_directory).mkdir(parents=True, exist_ok=True)
     Path(log_directory).mkdir(parents=True, exist_ok=True)
 
     logging.basicConfig(filename=log_file_name, filemode=log_mode, format=log_format,

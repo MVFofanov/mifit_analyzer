@@ -10,7 +10,7 @@ class SleepData(MiFitDataAbstract):
     def __init__(self, start_date: str | None = None, end_date: str | None = None,
                  date_format: str = '%Y.%m.%d',
                  path_to_data_directory: str = '/mnt/c/mifit_data/SLEEP',
-                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/statistics/sleep_statistics',
+                 statistics_file_name: str = '/mnt/c/mifit_data/mifit_analyzer/results/statistics/sleep_statistics',
                  hours_difference: int = 0) -> None:
 
         super().__init__(start_date, end_date, date_format, path_to_data_directory, statistics_file_name,

@@ -5,7 +5,8 @@ import pandas as pd
 
 
 class PlotterAbstract(ABC):
-    plots_directory = '/mnt/c/mifit_data/mifit_analyzer/plots'
+    results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
+    plots_directory = f'{results_directory}/plots/'
 
     hour_axis_labels = [i for i in range(0, 25, 2)]
     title_fontsize = 20

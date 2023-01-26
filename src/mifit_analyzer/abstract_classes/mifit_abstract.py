@@ -23,8 +23,9 @@ def read_my_csv_file(path: str) -> pd.DataFrame:
 
 class MiFitDataAbstract(ABC):
     current_directory = '/mnt/c/mifit_data/mifit_analyzer'
-    plots_directory = '/mnt/c/mifit_data/mifit_analyzer/plots/'
-    statistics_directory = '/mnt/c/mifit_data/mifit_analyzer/statistics/'
+    results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
+    plots_directory = f'{results_directory}/plots/'
+    statistics_directory = f'{results_directory}/statistics/'
 
     day_of_the_week_names = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
