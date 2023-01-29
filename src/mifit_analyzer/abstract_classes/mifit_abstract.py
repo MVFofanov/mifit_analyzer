@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import glob
 from datetime import datetime
+import logging
 from pathlib import Path
 from pympler import asizeof
 import subprocess
@@ -22,10 +23,6 @@ def read_my_csv_file(path: str) -> pd.DataFrame:
 
 
 class MiFitDataAbstract(ABC):
-    current_directory = '/mnt/c/mifit_data/mifit_analyzer'
-    # results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
-    # plots_directory = f'{results_directory}/plots/'
-    # statistics_directory = f'{results_directory}/statistics/'
 
     day_of_the_week_names = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
@@ -42,9 +39,7 @@ class MiFitDataAbstract(ABC):
         self.results_directory = results_directory.removesuffix('/')
         self.plots_directory = f'{results_directory}/plots/'
         self.statistics_directory = f'{results_directory}/statistics'
-        # self.input_directory = f'{self.input_directory}/DATA_DIRECTORY_ABSTRACT'
 
-        # self.input_directory = self.input_directory.removesuffix('/')
         self.statistics_file_name = f'{self.statistics_directory}/abstract_statistics'
 
         self.start_date = start_date
@@ -67,7 +62,17 @@ class MiFitDataAbstract(ABC):
         return self.data.shape[0]
 
     def __repr__(self) -> str:
-        return 'BaseMifitData()'
+        cls_name = type(self).__name__
+        start_date = self.start_date.strftime(self.date_format)
+        end_date = self.end_date.strftime(self.date_format)
+        return f"{cls_name}(input_directory='{self.input_directory}', "\
+               f"start_date='{start_date}', end_date='{end_date}', "\
+               f"date_format='{self.date_format}', "\
+               f"results_directory='{self.results_directory}'"
+
+    def make_logging_message(self):
+        logging.info(f"{self}")
+        logging.info(f"{self.get_size()}")
 
     def set_start_date_and_end_date(self):
         if self.start_date is None:

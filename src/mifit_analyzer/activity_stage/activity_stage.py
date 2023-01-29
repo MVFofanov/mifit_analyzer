@@ -13,9 +13,6 @@ class ActivityStageData(MiFitDataAbstract):
                          results_directory)
         self.statistics_file_name = f'{self.statistics_directory}/activity_stage_statistics'
 
-    def __repr__(self) -> str:
-        return f'ActivityStageData(start_date={self.start_date}, end_date={self.end_date})'
-
     def transform_data_for_analysis(self) -> None:
         self.transform_time_columns_to_datetime()
         self.add_new_columns()

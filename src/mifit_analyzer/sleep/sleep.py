@@ -18,8 +18,14 @@ class SleepData(MiFitDataAbstract):
         self.statistics_file_name = f'{self.statistics_directory}/sleep_statistics'
 
     def __repr__(self) -> str:
-        return f'SleepData(start_date={self.start_date}, end_date={self.end_date}, ' \
-               f'hours_difference={self.hours_difference})'
+        cls_name = type(self).__name__
+        start_date = self.start_date.strftime(self.date_format)
+        end_date = self.end_date.strftime(self.date_format)
+        return f"{cls_name}(input_directory='{self.input_directory}', "\
+               f"start_date='{start_date}', end_date='{end_date}', "\
+               f"date_format='{self.date_format}', "\
+               f"results_directory='{self.results_directory}', "\
+               f"hours_difference={self.hours_difference})"
 
     def transform_data_for_analysis(self) -> None:
         self.add_new_columns()

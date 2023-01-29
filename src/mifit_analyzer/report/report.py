@@ -32,13 +32,6 @@ class TotalRecords:
 
 
 class MifitReport:
-    current_directory = '/mnt/c/mifit_data/mifit_analyzer'
-    # results_directory = '/mnt/c/mifit_data/mifit_analyzer/results'
-    # plots_directory = f'{results_directory}/plots/'
-    # statistics_directory = f'{results_directory}/statistics/'
-    # report_directory = f'{results_directory}/report'
-
-    # top_step_days_file_name = f'{statistics_directory}/top_step_days'
 
     def __init__(self, mifit_data: MiFitData,
                  user_name: str, daily_steps_goal: int,
@@ -79,7 +72,17 @@ class MifitReport:
         return self.activity.data.shape[0]
 
     def __repr__(self) -> str:
-        return f'MifitReport(user_name={self.user}, daily_steps_goal={self.daily_steps_goal})'
+        cls_name = type(self).__name__
+
+        return f"{cls_name}(mifit_data={type(self.mifit_data).__name__}, "\
+               f"user_name='{self.user}', daily_steps_goal={self.daily_steps_goal}, "\
+               f"top_step_days_number={self.number_days}, "\
+               f"date_format='{self.date_format}', "\
+               f"results_directory='{self.results_directory}')"
+
+    def make_logging_message(self):
+        logging.info(f"{self}")
+        logging.info(f"{self.get_size()}")
 
     def make_report(self) -> None:
         today = datetime.now().strftime(self.date_format)
@@ -208,14 +211,12 @@ class MifitReport:
 
         sleep_plotter = SleepPlotter(self.sleep.data, results_directory=self.results_directory)
 
-        logging.info(f"sleep_plotter object have been generated."
-                     f"{sleep_plotter.get_size()}")
+        sleep_plotter.make_logging_message()
 
         sleep_report_plotter = SleepReportPlotter(plotter=sleep_plotter,
                                                   markdown_plots_list=self.markdown_plots_list)
 
-        logging.info(f"sleep_report_plotter object have been generated."
-                     f"{sleep_report_plotter.get_size()}")
+        sleep_report_plotter.make_logging_message()
 
         sleep_report_plotter.make_plots()
 
@@ -223,14 +224,12 @@ class MifitReport:
 
         activity_plotter = ActivityPlotter(self.activity.data, results_directory=self.results_directory)
 
-        logging.info(f"activity_plotter object have been generated."
-                     f"{activity_plotter.get_size()}")
+        activity_plotter.make_logging_message()
 
         activity_report_plotter = ActivityReportPlotter(plotter=activity_plotter,
                                                         markdown_plots_list=self.markdown_plots_list)
 
-        logging.info(f"activity_report_plotter object have been generated."
-                     f"{activity_report_plotter.get_size()}")
+        activity_report_plotter.make_logging_message()
 
         activity_report_plotter.make_plots()
 
@@ -239,17 +238,12 @@ class MifitReport:
         sleep_activity_plotter = SleepActivityPlotter(self.sleep_activity.data,
                                                       results_directory=self.results_directory)
 
-        logging.info(f"Sleep_activity_plotter object have been generated. "
-                     f"{sleep_activity_plotter.get_size()}")
+        sleep_activity_plotter.make_logging_message()
 
         sleep_activity_report_plotter = SleepActivityReportPlotter(plotter=sleep_activity_plotter,
                                                                    markdown_plots_list=self.markdown_plots_list)
 
-        logging.info(f"sleep_activity_report_plotter object have been generated."
-                     f"{sleep_activity_report_plotter.get_size()}")
-
-        logging.info(f"sleep_activity_report_plotter object have been generated."
-                     f"{sleep_activity_report_plotter.get_size()}")
+        sleep_activity_report_plotter.make_logging_message()
 
         sleep_activity_report_plotter.make_plots()
 
@@ -258,14 +252,12 @@ class MifitReport:
         activity_stage_plotter = ActivityStagePlotter(self.activity_stage.data,
                                                       results_directory=self.results_directory)
 
-        logging.info(f"activity_stage_plotter object have been generated."
-                     f"{activity_stage_plotter.get_size()}")
+        activity_stage_plotter.make_logging_message()
 
         activity_stage_report_plotter = ActivityStageReportPlotter(plotter=activity_stage_plotter,
                                                                    markdown_plots_list=self.markdown_plots_list)
 
-        logging.info(f"activity_stage_report_plotter object have been generated."
-                     f"{activity_stage_report_plotter.get_size()}")
+        activity_stage_report_plotter.make_logging_message()
 
         activity_stage_report_plotter.make_plots()
 

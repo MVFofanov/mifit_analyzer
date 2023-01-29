@@ -9,6 +9,8 @@ class SleepActivityData(SleepData, ActivityData):
 
     def __init__(self, sleep: SleepData, activity: ActivityData,
                  results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results') -> None:
+        self.sleep = sleep
+        self.activity = activity
         self.results_directory = results_directory.removesuffix('/')
         self.plots_directory = f'{results_directory}/plots/'
         self.statistics_directory = f'{results_directory}/statistics'
@@ -32,7 +34,10 @@ class SleepActivityData(SleepData, ActivityData):
         self.distance_axis_labels = [i for i in range(0, self.data.distance.max(), 2000)]
 
     def __repr__(self) -> str:
-        return 'SleepActivityData()'
+        cls_name = type(self).__name__
+        return f"{cls_name}(sleep={type(self.sleep).__name__}, " \
+               f"activity={type(self.activity).__name__}, " \
+               f"results_directory='{self.results_directory}')"
 
     def write_statistics_to_csv(self) -> None:
         desired_columns = self.data.describe()[['totalSleepTime_hours', 'deepSleepTime_hours', 'shallowSleepTime_hours',

@@ -49,7 +49,7 @@ def main(input_directory: str = '/mnt/c/mifit_data/mifit_analyzer/data',
     sleep.transform_data_for_analysis()
     sleep.write_statistics_to_csv()
 
-    logging.info(f"Sleep object have been analyzed. {sleep.get_size()}")
+    sleep.make_logging_message()
 
     activity = ActivityData(input_directory=f'{input_directory}/ACTIVITY',
                             start_date=start_date, end_date=end_date, date_format=date_format,
@@ -57,7 +57,7 @@ def main(input_directory: str = '/mnt/c/mifit_data/mifit_analyzer/data',
     activity.transform_data_for_analysis()
     activity.write_statistics_to_csv()
 
-    logging.info(f"Activity object have been analyzed. {activity.get_size()}")
+    activity.make_logging_message()
 
     activity_stage = ActivityStageData(input_directory=f'{input_directory}/ACTIVITY_STAGE',
                                        start_date=start_date, end_date=end_date, date_format=date_format,
@@ -65,12 +65,12 @@ def main(input_directory: str = '/mnt/c/mifit_data/mifit_analyzer/data',
     activity_stage.transform_data_for_analysis()
     activity_stage.write_statistics_to_csv()
 
-    logging.info(f"Activity_stage object have been analyzed. {activity_stage.get_size()}")
+    activity_stage.make_logging_message()
 
     sleep_activity = SleepActivityData(sleep=sleep, activity=activity, results_directory=output_directory)
     sleep_activity.write_statistics_to_csv()
 
-    logging.info(f"Sleep_activity object have been analyzed. {sleep_activity.get_size()}")
+    sleep_activity.make_logging_message()
 
     mifit_data = MiFitData(sleep=sleep, activity=activity, sleep_activity=sleep_activity,
                            activity_stage=activity_stage)
@@ -82,7 +82,7 @@ def main(input_directory: str = '/mnt/c/mifit_data/mifit_analyzer/data',
                          date_format=date_format,
                          results_directory=output_directory)
 
-    logging.info(f"Report object have been analyzed. {report.get_size()}")
+    report.make_logging_message()
 
     report.make_plots()
 
@@ -110,9 +110,19 @@ if __name__ == "__main__":
                         level=log_level, encoding='utf-8')
 
     logging.info('Mifit_analyzer has started its work')
-    # logging.info(f'{args}')
     logging.info('To reproduce this analysis, you can use the following command:')
     logging.info(f'python3 {" ".join(sys.argv)}')
+
+    logging.info(f"main(input_directory='{args.input_directory}', "
+                 f"user_name='{args.user_name}', "
+                 f"start_date='{args.start_date}', "
+                 f"end_date='{args.end_date}', "
+                 f"hours_difference={args.time_zone}, "
+                 f"output_directory='{args.output_directory}', "
+                 f"daily_steps_goal={args.daily_steps_goal}, "
+                 f"top_step_days_number={args.top_step_days_number}, "
+                 f"date_format='{args.date_format}')"
+                 )
 
     main(input_directory=args.input_directory,
          user_name=args.user_name,

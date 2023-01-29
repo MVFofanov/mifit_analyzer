@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import logging
 from pympler import asizeof
 
 from abstract_classes.plotter_abstract import PlotterAbstract
@@ -14,11 +15,20 @@ class ReportPlotterAbstract(ABC):
         self.plots_directory = plotter.plots_directory
         self.markdown_plots_list = markdown_plots_list
 
+    def __repr__(self) -> str:
+        cls_name = type(self).__name__
+        plotter_cls_name = type(self.plotter).__name__
+        return f"{cls_name}(plotter={plotter_cls_name}, markdown_plots_list=markdown_plots_list)"
+
     def get_plot_markdown_text(self, file_name: str) -> tuple[str, markdown_text]:
         plot_path = f'{self.plots_directory}/{file_name}.png'
         plot_name = f"{plot_path.split('/')[-1]}"
         plot_markdown = f"![image]({plot_path})"
         return plot_name, plot_markdown
+
+    def make_logging_message(self):
+        logging.info(f"{self}")
+        logging.info(f"{self.get_size()}")
 
     @abstractmethod
     def make_plots(self) -> None:
