@@ -7,13 +7,13 @@ from abstract_classes.mifit_abstract import MiFitDataAbstract, convert_csv_to_ma
 
 class SleepData(MiFitDataAbstract):
 
-    def __init__(self, start_date: str | None = None, end_date: str | None = None,
+    def __init__(self, input_directory: str = '/mnt/c/mifit_data/mifit_analyzer/data/SLEEP',
+                 start_date: str | None = None, end_date: str | None = None,
                  date_format: str = '%Y.%m.%d',
-                 path_to_data_directory: str = '/mnt/c/mifit_data/SLEEP',
                  results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results',
                  hours_difference: int = 0) -> None:
 
-        super().__init__(start_date, end_date, date_format, path_to_data_directory, results_directory,
+        super().__init__(input_directory, start_date, end_date, date_format, results_directory,
                          hours_difference)
         self.statistics_file_name = f'{self.statistics_directory}/sleep_statistics'
 

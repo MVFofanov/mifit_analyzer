@@ -32,17 +32,19 @@ class MiFitDataAbstract(ABC):
     month_names = ('January', 'February', 'March', 'April', 'May', 'June',
                    'July', 'August', 'September', 'October', 'November', 'December')
 
-    def __init__(self, start_date: str | None = None, end_date: str | None = None,
+    def __init__(self, input_directory: str = '/mnt/c/mifit_data/mifit_analyzer/data',
+                 start_date: str | None = None, end_date: str | None = None,
                  date_format: str = '%Y.%m.%d',
-                 path_to_data_directory: str = '/mnt/c/mifit_data/DATA_DIRECTORY_ABSTRACT',
                  results_directory: str = '/mnt/c/mifit_data/mifit_analyzer/results',
                  hours_difference: int = 0
                  ) -> None:
+        self.input_directory = input_directory.removesuffix('/')
         self.results_directory = results_directory.removesuffix('/')
         self.plots_directory = f'{results_directory}/plots/'
         self.statistics_directory = f'{results_directory}/statistics'
+        #self.input_directory = f'{self.input_directory}/DATA_DIRECTORY_ABSTRACT'
 
-        self.path_to_data_directory = path_to_data_directory.removesuffix('/')
+        # self.input_directory = self.input_directory.removesuffix('/')
         self.statistics_file_name = f'{self.statistics_directory}/abstract_statistics'
 
         self.start_date = start_date
@@ -95,7 +97,7 @@ class MiFitDataAbstract(ABC):
         pass
 
     def read_all_csv_files(self) -> pd.DataFrame:
-        all_csv_files = glob.glob(f'{self.path_to_data_directory}/*.csv')
+        all_csv_files = glob.glob(f'{self.input_directory}/*.csv')
         df_list = []
 
         for filename in all_csv_files:
