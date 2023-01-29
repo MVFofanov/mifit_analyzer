@@ -42,7 +42,7 @@ class MiFitDataAbstract(ABC):
         self.results_directory = results_directory.removesuffix('/')
         self.plots_directory = f'{results_directory}/plots/'
         self.statistics_directory = f'{results_directory}/statistics'
-        #self.input_directory = f'{self.input_directory}/DATA_DIRECTORY_ABSTRACT'
+        # self.input_directory = f'{self.input_directory}/DATA_DIRECTORY_ABSTRACT'
 
         # self.input_directory = self.input_directory.removesuffix('/')
         self.statistics_file_name = f'{self.statistics_directory}/abstract_statistics'

@@ -16,18 +16,19 @@ def parse_arguments():
     parser = argparse.ArgumentParser(prog='mifit_analyzer', usage='python3 %(prog)s [options]',
                                      description='This tool analyzes the data (steps and sleep) received from '
                                                  'the Mi Band fitness bracelet and generates a report based on it.')
-    parser.add_argument('--input_directory', help='enter the input directory', type=str,
+    parser.add_argument('--input_directory', help='path to input directory. Default: mifit_analyzer/data', type=str,
                         default='/mnt/c/mifit_data/mifit_analyzer/data')
-    parser.add_argument('--start_date', help='enter the start_date', type=str, default='1900.01.01')
-    parser.add_argument('--end_date', help='enter the end_date', type=str, default='2100.01.01')
-    parser.add_argument('--time_zone', help='enter the time_zone', type=int, default=7)
-    parser.add_argument('--output_directory', help='enter the output directory', type=str,
+    parser.add_argument('--start_date', help='start date. Default: 1900.01.01', type=str, default='1900.01.01')
+    parser.add_argument('--end_date', help='end date. Default: 2100.01.01', type=str, default='2100.01.01')
+    parser.add_argument('--time_zone', help='time zone. Default: 0', type=int, default=0)
+    parser.add_argument('--output_directory', help='path to output directory. '
+                                                   'Default: mifit_analyzer/results', type=str,
                         default='/mnt/c/mifit_data/mifit_analyzer/results')
-    parser.add_argument('--daily_steps_goal', help='enter the daily_steps_goal', type=int, default=8000)
-    parser.add_argument('--user_name', help='enter the user_name', type=str, default='Username')
-    parser.add_argument('--top_step_days_number', help='enter the top_step_days_number', type=int, default=10)
-    parser.add_argument('--date_format', help='enter the date_format', type=str, default='%Y.%m.%d')
-    parser.add_argument('--log_mode', help='enter the log_mode', type=str, default='w')
+    parser.add_argument('--daily_steps_goal', help='daily steps goal. Default: 8000', type=int, default=8000)
+    parser.add_argument('--user_name', help='user name. Default: Username', type=str, default='Username')
+    parser.add_argument('--top_step_days_number', help='top step days number. Default: 10', type=int, default=10)
+    parser.add_argument('--date_format', help='date format. Default: YYYY.mm.dd', type=str, default='%Y.%m.%d')
+    parser.add_argument('--log_mode', help='log mode. Default: w', type=str, default='w')
     args = parser.parse_args()
     return args
 
